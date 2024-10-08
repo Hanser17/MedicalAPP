@@ -1,11 +1,15 @@
 ﻿
 
 using MedicalAppoiments.Domain.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedicalAppoiments.Domain.Entities.users
 {
+    [Table("Doctors", Schema = "users")]
     public class Doctors : BaseEntity_user
     {
+        [Key]
         public int DoctorID { get; set; }
         public int SpecialtyID { get; set; }
         public string LicenseNumber { get; set; }

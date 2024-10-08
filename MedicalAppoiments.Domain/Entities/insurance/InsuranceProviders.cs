@@ -1,6 +1,8 @@
 ﻿using MedicalAppoiments.Domain.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -8,8 +10,10 @@ using System.Threading.Tasks;
 
 namespace MedicalAppoiments.Domain.Entities.insurance
 {
-   public class InsuranceProviders: BaseEntity_insurance
+    [Table("InsuranceProviders", Schema = "insurance")]
+    public class InsuranceProviders: BaseEntity_insurance
     {
+        [Key]
         public int InsuranceProviderID { get; set; }
         public string ContactNumber { get; set; }
         public string Email { get; set; }
