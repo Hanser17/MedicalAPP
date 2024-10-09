@@ -1,7 +1,7 @@
 ﻿
 namespace MedicalAppoiments.Domain.Base
 {
-     public abstract class BaseEntity_medical
+     public abstract class BaseEntity
     {
 
         public DateTime CreatedAt { get; set; }

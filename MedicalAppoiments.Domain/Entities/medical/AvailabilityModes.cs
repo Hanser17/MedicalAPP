@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MedicalAppoiments.Domain.Entities.medical
 {
     [Table("AvailabilityModes", Schema = "medical")]
-    public class AvailabilityModes : BaseEntity_medical
+    public class AvailabilityModes : BaseEntity
     {
         [Key]
         public int SAvailabilityModeID { get; set; }

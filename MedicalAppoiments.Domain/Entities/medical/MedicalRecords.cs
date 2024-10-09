@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MedicalAppoiments.Domain.Entities.medical
 {
     [Table("MedicalRecords", Schema = "medical")]
-    public class MedicalRecords : BaseEntity_medical
+    public class MedicalRecords : BaseEntity
     {
         [Key]
         public int RecordID { get; set; }

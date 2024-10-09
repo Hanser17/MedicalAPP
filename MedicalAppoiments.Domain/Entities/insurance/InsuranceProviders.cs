@@ -11,15 +11,16 @@ using System.Threading.Tasks;
 namespace MedicalAppoiments.Domain.Entities.insurance
 {
     [Table("InsuranceProviders", Schema = "insurance")]
-    public class InsuranceProviders: BaseEntity_insurance
+    public class InsuranceProviders : BaseEntity
     {
         [Key]
         public int InsuranceProviderID { get; set; }
-        public string ContactNumber { get; set; }
-        public string Email { get; set; }
+        public string? Name { get; set; }
+        public string? ContactNumber { get; set; }
+        public string?Email { get; set; }
         public string? Website { get; set; }
 
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         public string? City { get; set; }
 
@@ -29,7 +30,7 @@ namespace MedicalAppoiments.Domain.Entities.insurance
 
         public string? ZipCode { get; set; }
 
-        public string CoverageDetails { get; set; }
+        public string?CoverageDetails { get; set; }
 
         public string? LogoUrl { get; set; }
 
@@ -39,8 +40,6 @@ namespace MedicalAppoiments.Domain.Entities.insurance
         public string? AcceptedRegions { get;}
 
         public double? MaxCoverageAmount { get; set; }
-
-    
 
 
     }
