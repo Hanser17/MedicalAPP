@@ -1,21 +1,20 @@
 ﻿
 using MedicalAppoiments.Domain.Result;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace MedicalAppoiments.Domain.Repositories
 {
-    
-    public interface IBaseRepository <TEntity> where TEntity : class
+
+    public interface IBaseRepository<TEntity> where TEntity : class
     {
-     
+
         Task<OperationResult> Save(TEntity entity);
 
-        Task<OperationResult> Update (TEntity entity);
+        Task<OperationResult> Update(TEntity entity);
 
         Task<OperationResult> Remove(TEntity entity);
-       
-        Task <OperationResult> GetAll ();
+
+        Task<OperationResult> GetAll();
 
         Task<OperationResult> GetEntityBy(int Id);
         Task<OperationResult> Exists(Expression<Func<TEntity, bool>> filter);

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicalAppoiments.Persistance.Context
 {
-    public partial class MedicalAppointmentContext :DbContext
+    public partial class MedicalAppointmentContext : DbContext
     {
         public MedicalAppointmentContext(DbContextOptions<MedicalAppointmentContext> options) : base(options)
         {
@@ -17,32 +17,32 @@ namespace MedicalAppoiments.Persistance.Context
         }
         #region appointments entities
         public DbSet<Appointments> Appointments { get; set; }
-        public DbSet <DoctorAvailability> DoctorAvailability { get; set; }
+        public DbSet<DoctorAvailability> DoctorAvailability { get; set; }
         #endregion
 
         #region insurance entities
-        public DbSet<InsuranceProviders> InsuranceProviders { get; set;}
+        public DbSet<InsuranceProviders> InsuranceProviders { get; set; }
 
-        public DbSet <NetworkType> NetworkTypes { get; set; }
+        public DbSet<NetworkType> NetworkTypes { get; set; }
         #endregion
 
         #region medical entities
 
         public DbSet<AvailabilityModes> AvailabilityModes { get; set; }
         public DbSet<MedicalRecords> MedicalRecords { get; set; }
-        public DbSet<Specialties> Specialties { get; set; } 
+        public DbSet<Specialties> Specialties { get; set; }
 
         #endregion
 
         #region system entities
         public DbSet<Roles> Roles { get; set; }
-        public DbSet<Status> Statuss { get; set; }
+        public DbSet<Status> Status { get; set; }
         #endregion
 
         #region users entities
         public DbSet<Doctors> Doctors { get; set; }
-        public DbSet< Patients> Patients { get; set; }
-        public DbSet <users> Users { get; set; }
+        public DbSet<Patients> Patients { get; set; }
+        public DbSet<users> Users { get; set; }
         #endregion
     }
 }
