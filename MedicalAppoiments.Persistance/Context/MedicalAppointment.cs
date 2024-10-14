@@ -13,7 +13,7 @@ namespace MedicalAppoiments.Persistance.Context
     {
         public MedicalAppointmentContext(DbContextOptions<MedicalAppointmentContext> options) : base(options)
         {
-
+            
         }
         #region appointments entities
         public DbSet<Appointments> Appointments { get; set; }

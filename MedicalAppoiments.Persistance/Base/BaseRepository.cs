@@ -18,34 +18,113 @@ namespace MedicalAppoiments.Persistance.Base
             _medicalAppointmentContext = medicalAppointmentContext;
             this._entities = medicalAppointmentContext.Set<TEntity>();
         }
-        public Task<OperationResult> Exists(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<OperationResult> Exists(Expression<Func<TEntity, bool>> filter)
         {
-            throw new NotImplementedException();
+            OperationResult result = new OperationResult();
+
+            try
+            {
+
+                var exists = await this._entities.AnyAsync(filter);
+                result.Data = exists;
+                
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = $"Ocurrio un Error {ex.Message} verificando que existe el registro";
+            }
+
+            return result;
         }
 
-        public Task<OperationResult> GetAll()
+        public virtual async Task<OperationResult> GetAll()
         {
-            throw new NotImplementedException();
+            OperationResult result = new OperationResult();
+            try
+            {
+                var datos = await this._entities.ToListAsync();
+                result.Data = datos;
+
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = $"Ocurrio un Error {ex.Message} obteniendo los datos ";
+            }
+
+            return result;
         }
 
-        public Task<OperationResult> GetEntityBy(int Id)
+        public virtual async Task<OperationResult> GetEntityBy(int Id)
         {
-            throw new NotImplementedException();
+            OperationResult result = new OperationResult();
+            try
+            {
+                var entity = await this._entities.FindAsync(Id);
+                result.Data = entity;
+
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = $"Ocurrio un Error {ex.Message} obteniendo la entidad ";
+            }
+
+            return result;
         }
 
-        public Task<OperationResult> Remove(TEntity entity)
+        public virtual async Task<OperationResult> Remove(TEntity entity)
         {
-            throw new NotImplementedException();
+            OperationResult result = new OperationResult();
+            try
+            {
+                _entities.Remove(entity);
+                await _medicalAppointmentContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = $"Ocurrio un Error {ex.Message} borrando el registro ";
+            }
+
+            return result;
         }
 
-        public Task<OperationResult> Save(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<OperationResult> Update(TEntity entity)
+        public virtual async Task<OperationResult> Save(TEntity entity)
         {
-            throw new NotImplementedException();
+            OperationResult result = new OperationResult();
+            try
+            {
+                _entities.Add(entity);
+                await _medicalAppointmentContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = $"Ocurrio un Error {ex.Message} guardando el registro ";
+            }
+
+            return result;
+        }
+   
+
+        public virtual async Task<OperationResult> Update(TEntity entity)
+        {
+            OperationResult result = new OperationResult();
+            try
+            {
+                _entities.Update(entity);
+                await _medicalAppointmentContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = $"Ocurrio un Error {ex.Message} actualizando el registro ";
+            }
+
+            return result;
         }
     }
 }
