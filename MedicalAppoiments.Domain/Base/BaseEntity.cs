@@ -8,6 +8,5 @@ namespace MedicalAppoiments.Domain.Base
 
         public DateTime? UpdatedAt { get; set; }
 
-        public bool IsActive { get; set; }
     }
 }
