@@ -5,13 +5,21 @@ VisualStudioVersion = 17.8.34112.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{0B08DC9E-DA94-48A0-BA15-3E16446193E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAppoiments.Domain", "MedicalAppoiments.Domain\MedicalAppoiments.Domain.csproj", "{5B47065B-BAD4-4C20-A78B-EE0BC4D32B58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalAppoiments.Domain", "MedicalAppoiments.Domain\MedicalAppoiments.Domain.csproj", "{5B47065B-BAD4-4C20-A78B-EE0BC4D32B58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAppoiments.Persistance", "MedicalAppoiments.Persistance\MedicalAppoiments.Persistance.csproj", "{50B25CE3-8E5D-40A0-8A01-38872EB926D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalAppoiments.Persistance", "MedicalAppoiments.Persistance\MedicalAppoiments.Persistance.csproj", "{50B25CE3-8E5D-40A0-8A01-38872EB926D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{7288807B-8798-4941-9602-430A252CC33B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAppoiments.Infrastructure", "MedicalAppoiments.Infrastructure\MedicalAppoiments.Infrastructure.csproj", "{A08D462E-B5A1-4CAE-928B-755D3711F4DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalAppoiments.Infrastructure", "MedicalAppoiments.Infrastructure\MedicalAppoiments.Infrastructure.csproj", "{A08D462E-B5A1-4CAE-928B-755D3711F4DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API's", "API's", "{7BB08EA3-7896-410C-8528-AC300836D371}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAppoimentsApp.appointments.Api", "MedicalAppoimentsApp.appointments.Api\MedicalAppoimentsApp.appointments.Api.csproj", "{AF9780AD-EB9D-4FA5-8E5E-EB9266F7C9A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAppointment.Users.api", "MedicalAppointment.users.api\MedicalAppointment.Users.api.csproj", "{46F3709E-DCDF-4BD3-921E-DDD42D7131B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAppointment.system.api", "MedicalAppointment.system.api\MedicalAppointment.system.api.csproj", "{C6FA9D92-0D9D-41DF-9AE7-657465185351}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +39,18 @@ Global
 		{A08D462E-B5A1-4CAE-928B-755D3711F4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A08D462E-B5A1-4CAE-928B-755D3711F4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A08D462E-B5A1-4CAE-928B-755D3711F4DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF9780AD-EB9D-4FA5-8E5E-EB9266F7C9A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF9780AD-EB9D-4FA5-8E5E-EB9266F7C9A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF9780AD-EB9D-4FA5-8E5E-EB9266F7C9A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF9780AD-EB9D-4FA5-8E5E-EB9266F7C9A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46F3709E-DCDF-4BD3-921E-DDD42D7131B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46F3709E-DCDF-4BD3-921E-DDD42D7131B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46F3709E-DCDF-4BD3-921E-DDD42D7131B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46F3709E-DCDF-4BD3-921E-DDD42D7131B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6FA9D92-0D9D-41DF-9AE7-657465185351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6FA9D92-0D9D-41DF-9AE7-657465185351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6FA9D92-0D9D-41DF-9AE7-657465185351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6FA9D92-0D9D-41DF-9AE7-657465185351}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +59,9 @@ Global
 		{5B47065B-BAD4-4C20-A78B-EE0BC4D32B58} = {0B08DC9E-DA94-48A0-BA15-3E16446193E8}
 		{50B25CE3-8E5D-40A0-8A01-38872EB926D7} = {0B08DC9E-DA94-48A0-BA15-3E16446193E8}
 		{A08D462E-B5A1-4CAE-928B-755D3711F4DD} = {0B08DC9E-DA94-48A0-BA15-3E16446193E8}
+		{AF9780AD-EB9D-4FA5-8E5E-EB9266F7C9A2} = {7BB08EA3-7896-410C-8528-AC300836D371}
+		{46F3709E-DCDF-4BD3-921E-DDD42D7131B2} = {7BB08EA3-7896-410C-8528-AC300836D371}
+		{C6FA9D92-0D9D-41DF-9AE7-657465185351} = {7BB08EA3-7896-410C-8528-AC300836D371}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F39819EF-C6A0-44D9-BC47-D115396A20B2}

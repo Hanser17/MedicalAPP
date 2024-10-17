@@ -13,6 +13,9 @@ namespace MedicalAppoiments.Domain.Entities.medical
         public int SAvailabilityModeID { get; set; }
         public string? AvailabilityMode { get; }
 
+        public bool IsActive { get; set; }
+
+
 
 
     }

@@ -3,7 +3,8 @@ using MedicalAppoiments.Domain.Repositories;
 
 namespace MedicalAppoiments.Persistance.Interfaces.Iusers
 {
-    public interface IUsersRepository : IBaseRepository<users>
+    public interface IUsersRepository : IBaseRepository<Users>
     {
+
     }
 }

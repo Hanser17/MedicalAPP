@@ -35,6 +35,9 @@ namespace MedicalAppoiments.Domain.Entities.insurance
 
         public double? MaxCoverageAmount { get; set; }
 
+        public bool IsActive { get; set; }
+
+
 
     }
 }

@@ -21,6 +21,9 @@ namespace MedicalAppoiments.Domain.Entities.users
         public string? Allergies { get; set; }
         public int InsuranceProviderID { get; set; }
 
+        public bool IsActive { get; set; }
+
+
 
     }
 }

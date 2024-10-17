@@ -18,42 +18,48 @@ namespace MedicalAppoiments.Persistance.Base
             _medicalAppointmentContext = medicalAppointmentContext;
             this._entities = medicalAppointmentContext.Set<TEntity>();
         }
-        public virtual async Task<OperationResult> Exists(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<bool> Exists(Expression<Func<TEntity, bool>> filter)
         {
-            OperationResult result = new OperationResult();
-
-            try
-            {
-
-                var exists = await this._entities.AnyAsync(filter);
-                result.Data = exists;
-                
-            }
-            catch (Exception ex)
-            {
-                result.success = false;
-                result.message = $"Ocurrio un Error {ex.Message} verificando que existe el registro";
-            }
-
-            return result;
+            return await this._entities.AnyAsync(filter);
         }
 
         public virtual async Task<OperationResult> GetAll()
         {
             OperationResult result = new OperationResult();
+
             try
             {
                 var datos = await this._entities.ToListAsync();
                 result.Data = datos;
-
             }
             catch (Exception ex)
             {
+
                 result.success = false;
-                result.message = $"Ocurrio un Error {ex.Message} obteniendo los datos ";
+                result.message = $"Ocurrió un error {ex.Message} obteniendo los datos.";
             }
 
             return result;
+        }
+
+        public virtual async Task<OperationResult> GetAll(Expression<Func<TEntity, bool>> filter)
+        {
+            OperationResult result = new OperationResult();
+
+            try
+            {
+                var datos = await this._entities.Where(filter).ToListAsync();
+                result.Data = datos;
+            }
+            catch (Exception ex)
+            {
+
+                result.success = false;
+                result.message = $"Ocurrió un error {ex.Message} obteniendo los datos.";
+            }
+
+            return result;
+
         }
 
         public virtual async Task<OperationResult> GetEntityBy(int Id)
@@ -63,20 +69,20 @@ namespace MedicalAppoiments.Persistance.Base
             {
                 var entity = await this._entities.FindAsync(Id);
                 result.Data = entity;
-
             }
             catch (Exception ex)
             {
-                result.success = false;
-                result.message = $"Ocurrio un Error {ex.Message} obteniendo la entidad ";
-            }
 
+                result.success = false;
+                result.message = $"Ocurrió un error {ex.Message} obteniendo la entidad.";
+            }
             return result;
         }
 
-        public virtual async Task<OperationResult> Remove(TEntity entity)
+        public async virtual Task<OperationResult> Remove(TEntity entity)
         {
             OperationResult result = new OperationResult();
+
             try
             {
                 _entities.Remove(entity);
@@ -85,16 +91,17 @@ namespace MedicalAppoiments.Persistance.Base
             catch (Exception ex)
             {
                 result.success = false;
-                result.message = $"Ocurrio un Error {ex.Message} borrando el registro ";
+                result.message = $"Ocurrió un error {ex.Message} removiendo la entidad.";
+
             }
 
             return result;
         }
 
-
         public virtual async Task<OperationResult> Save(TEntity entity)
         {
             OperationResult result = new OperationResult();
+
             try
             {
                 _entities.Add(entity);
@@ -103,16 +110,17 @@ namespace MedicalAppoiments.Persistance.Base
             catch (Exception ex)
             {
                 result.success = false;
-                result.message = $"Ocurrio un Error {ex.Message} guardando el registro ";
+                result.message = $"Ocurrió un error {ex.Message} guardando la entidad.";
+
             }
 
             return result;
         }
-   
 
         public virtual async Task<OperationResult> Update(TEntity entity)
         {
             OperationResult result = new OperationResult();
+
             try
             {
                 _entities.Update(entity);
@@ -121,10 +129,14 @@ namespace MedicalAppoiments.Persistance.Base
             catch (Exception ex)
             {
                 result.success = false;
-                result.message = $"Ocurrio un Error {ex.Message} actualizando el registro ";
+                result.message = $"Ocurrió un error {ex.Message} actualizando la entidad.";
+
             }
 
             return result;
         }
+
+
     }
+
 }

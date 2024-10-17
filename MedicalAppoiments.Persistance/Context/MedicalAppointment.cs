@@ -42,7 +42,7 @@ namespace MedicalAppoiments.Persistance.Context
         #region users entities
         public DbSet<Doctors> Doctors { get; set; }
         public DbSet<Patients> Patients { get; set; }
-        public DbSet<users> Users { get; set; }
+        public DbSet<Users> Users { get; set; }
         #endregion
     }
 }

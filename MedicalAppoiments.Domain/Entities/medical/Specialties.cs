@@ -12,6 +12,9 @@ namespace MedicalAppoiments.Domain.Entities.medical
         public int SpecialtyID { get; set; }
         public string? SpecialtyName { get; set; }
 
+        public bool IsActive { get; set; }
+
+
 
     }
 }

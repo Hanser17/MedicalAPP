@@ -22,6 +22,9 @@ namespace MedicalAppoiments.Domain.Entities.users
         public int? AvailabilityModeId { get; set; }
         public DateTime LicenseExpirationDate { get; set; }
 
+        public bool IsActive { get; set; }
+
+
 
     }
 }
