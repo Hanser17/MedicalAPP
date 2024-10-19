@@ -53,12 +53,6 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 return operationResult;
             }
 
-            if (entity.Password == null || entity.Password.Length >= 250)
-            {
-                operationResult.success = false;
-                operationResult.message = "Password requerido y debe ser menor a 250 caracteres  ";
-                return operationResult;
-            }
             if (entity.RoleID == null)
             {
                 operationResult.success = false;
