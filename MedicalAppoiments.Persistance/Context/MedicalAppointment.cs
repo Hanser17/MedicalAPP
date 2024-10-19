@@ -37,6 +37,7 @@ namespace MedicalAppoiments.Persistance.Context
         #region system entities
         public DbSet<Roles> Roles { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
         #endregion
 
         #region users entities

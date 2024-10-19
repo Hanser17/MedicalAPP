@@ -27,7 +27,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
         {
             OperationResult operationResult = new OperationResult();
 
-            if (entity.RoleName == null && entity.RoleName.Length <= 50)
+            if (entity.RoleName == null || entity.RoleName.Length <= 50)
             {
                 operationResult.success = false;
                 operationResult.message = "RoleName requerido y debe contener menor de 50 caracteres.";
@@ -52,7 +52,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
         public async override Task<OperationResult> Update(Roles entity)
         {
             OperationResult operationResult = new OperationResult();
-            if (entity.RoleName == null && entity.RoleName.Length <= 50)
+            if (entity.RoleName == null || entity.RoleName.Length <= 50)
                 {
                     operationResult.success = false;
                     operationResult.message = "RoleName requerido y debe contener menor de 50 caracteres.";
@@ -89,7 +89,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
         {
             OperationResult operationResult = new OperationResult();
 
-            if (entity.RoleName == null && entity.RoleName.Length <= 50)
+            if (entity.RoleName == null || entity.RoleName.Length <= 50)
             {
                 operationResult.success = false;
                 operationResult.message = "RoleName requerido y debe contener menor de 50 caracteres.";
@@ -138,14 +138,14 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error al obtener los roles.";
+                operationResult.message = "Error al  obtener todos los roles.";
                 _logger.LogError(operationResult.message, ex);
             }
 
             return operationResult;
         }
 
-        public async Task<OperationResult> GetById(int id)
+        public async Task<OperationResult> GetEntityBy(int id)
         {
             OperationResult operationResult = new OperationResult();
 
@@ -158,21 +158,21 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
 
             try
             {
-                var role = await _medicalAppointmentContext.Roles.FindAsync(id);
-                if (role == null)
+                var status = await _medicalAppointmentContext.Status.FindAsync(id);
+                if (status == null)
                 {
                     operationResult.success = false;
-                    operationResult.message = "El Role no existe.";
+                    operationResult.message = "El Rol no existe.";
                     return operationResult;
                 }
 
                 operationResult.success = true;
-                operationResult.Data = role; 
+                operationResult.Data = status;
             }
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error al obtener el rol.";
+                operationResult.message = "Error al obtener el role.";
                 _logger.LogError(operationResult.message, ex);
             }
 

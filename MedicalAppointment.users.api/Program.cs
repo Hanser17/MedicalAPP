@@ -1,7 +1,5 @@
 using MedicalAppoiments.Persistance.Context;
-using MedicalAppoiments.Persistance.Interfaces.Iappointments;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
-using MedicalAppoiments.Persistance.Repositories.appointmentsRepository;
 using MedicalAppoiments.Persistance.Repositories.usersRepository;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,11 +1,11 @@
-﻿using MedicalAppoiments.Domain.Entities.appointments;
+﻿
 using MedicalAppoiments.Domain.Entities.system;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
-using MedicalAppoiments.Persistance.Repositories.appointmentsRepository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MedicalAppoiments.Persistance.Repositories.usersRepository
@@ -18,7 +18,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
         public UsersRepository(MedicalAppointmentContext medicalAppointmentContext, ILogger<UsersRepository> logger)
             : base(medicalAppointmentContext)
         {
-            medicalAppointmentContext = medicalAppointmentContext;
+            _medicalAppointmentContext = medicalAppointmentContext;
             _logger = logger;
         }
 
@@ -53,15 +53,23 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 return operationResult;
             }
 
-            if (entity.RoleID == null)
+           if (entity.RoleID == null)
             {
                 operationResult.success = false;
                 operationResult.message = "RoleID requerido y debe ser menor a 250 caracteres  ";
                 return operationResult;
             }
 
+            var roleExists = await _medicalAppointmentContext.Roles.AnyAsync(r => r.RoleID == entity.RoleID);
+            if (!roleExists)
+            {
+                operationResult.success = false;
+                operationResult.message = "El RoleID proporcionado no existe en la tabla Roles.";
+                return operationResult;
+            }
+
             if (await base.Exists(user => user.Password == entity.Password 
-            && user.Email == entity.Email ))
+            || user.Email == entity.Email ))
                                                 
             {
                 operationResult.success = false;
@@ -82,10 +90,163 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             return operationResult;
 
+        }
 
+        public async override Task<OperationResult> Update(Users entity)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if (entity.FirstName == null || entity.FirstName.Length >= 100)
+            {
+                operationResult.success = false;
+                operationResult.message = "Nombre requerido y debe ser menor a 100 caracteres  ";
+                return operationResult;
+            }
+            if (entity.LastName == null || entity.LastName.Length >= 100)
+            {
+                operationResult.success = false;
+                operationResult.message = "Apellido requerido y debe ser menor a 100 caracteres  ";
+                return operationResult;
+            }
+
+            if (entity.Email == null || entity.Email.Length >= 250 )
+            {
+                operationResult.success = false;
+                operationResult.message = "Email requerido, debe contener '@' y ser menor a 250 caracteres.";
+                return operationResult;
+            }
+
+            if (entity.Password == null || entity.Password.Length >= 250)
+            {
+                operationResult.success = false;
+                operationResult.message = "Password requerido y debe ser menor a 250 caracteres  ";
+                return operationResult;
+            }
+
+
+
+            try
+            {
+                Users usertoUpdate = await _medicalAppointmentContext.Users.FindAsync(entity.UserID);
+                if (usertoUpdate == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "El User ID no existe";
+                    return operationResult;
+                }
+
+                usertoUpdate.RoleID = entity.RoleID;
+                usertoUpdate.FirstName = entity.FirstName;
+                usertoUpdate.LastName = entity.LastName;
+                usertoUpdate.UpdatedAt = DateTime.Now;
+                usertoUpdate.IsActive = entity.IsActive;
+                usertoUpdate.Email = entity.Email;
+                usertoUpdate.Password = entity.Password;
+                usertoUpdate.IsActive = entity.IsActive;
+                
+
+                operationResult = await base.Update(usertoUpdate);
+
+            }
+            catch (Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error actualizando el registro.";
+                _logger.LogError(operationResult.message, ex.ToString());
+            }
+            return operationResult;
 
         }
 
+        public async override Task<OperationResult> Remove(Users entity)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if(entity.UserID <=0) 
+            {
+                operationResult.success = false;
+                operationResult.message = "El UserID proporcionado no es valido";
+                return operationResult;
+            }
+            try
+            {
+                Users usertoRemove = await _medicalAppointmentContext.Users.FindAsync(entity.UserID);
+                if (usertoRemove == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "El User ID no existe";
+                    return operationResult;
+                }
+                usertoRemove.IsActive = entity.IsActive;
+                usertoRemove.UpdatedAt = DateTime.Now;
+               
+            }
+            catch (Exception ex)
+            {
+
+                operationResult.success = false;
+                operationResult.message = "Error actualizando el registro.";
+                _logger.LogError(operationResult.message, ex.ToString());
+            }
+            return operationResult;
+        
+        }
+
+        public async override Task<OperationResult> GetAll()
+        {
+            OperationResult operationResult = new OperationResult();
+
+            try
+            {
+
+                var users = await _medicalAppointmentContext.Users.ToListAsync();
+                operationResult.success = true;
+                operationResult.Data = users;
+            }
+            catch (Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error opteniendo todos los Users";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+
+        }
+
+        public async Task<OperationResult> GetEntityBy(int id)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "Se requiere un ID válido para realizar esta operación.";
+                return operationResult;
+            }
+
+            try
+            {
+                var user = await _medicalAppointmentContext.Users.FindAsync(id);
+                if (user == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "El User no existe.";
+                    return operationResult;
+                }
+
+                operationResult.success = true;
+                operationResult.Data = user;
+            }
+            catch (Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error al obtener el user.";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
 
     }
 

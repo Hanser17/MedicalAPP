@@ -1,9 +1,8 @@
 ﻿
+using MedicalAppoiments.Domain.Entities.system;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
-using MedicalAppoiments.Persistance.Interfaces.Iappointments;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
-using MedicalAppoiments.Persistance.Repositories.appointmentsRepository;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,21 +19,32 @@ namespace MedicalAppointment.users.api.Controllers
             _userRepository = userRepository;
         }
         // GET: api/<Users>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _userRepository.GetAll();
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // GET api/<Users>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetByUserID")]
+
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var result = await _userRepository.GetEntityBy(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // POST api/<Users>
-        [HttpPost ("User")]
+        [HttpPost ("SaveUser")]
         
             public async Task<IActionResult> Save([FromBody] Users entity)
             {
@@ -56,18 +66,33 @@ namespace MedicalAppointment.users.api.Controllers
 
                 return Ok(result);
             }
-        
+
 
         // PUT api/<Users>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdateUser")]
+        public async Task<IActionResult> Put([FromBody] Users users)
         {
+            var result = await _userRepository.Update(users);
+
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
         }
 
         // DELETE api/<Users>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("RemoveUser")]
+        public async Task<IActionResult> Deleted([FromBody] Users users)
         {
+            var result = await _userRepository.Remove(users);
+
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }
