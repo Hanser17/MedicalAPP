@@ -139,7 +139,6 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 usertoUpdate.FirstName = entity.FirstName;
                 usertoUpdate.LastName = entity.LastName;
                 usertoUpdate.UpdatedAt = DateTime.Now;
-                usertoUpdate.IsActive = entity.IsActive;
                 usertoUpdate.Email = entity.Email;
                 usertoUpdate.Password = entity.Password;
                 usertoUpdate.IsActive = entity.IsActive;

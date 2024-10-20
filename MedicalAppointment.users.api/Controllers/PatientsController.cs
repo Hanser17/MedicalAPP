@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MedicalAppoiments.Domain.Entities.users;
+using MedicalAppoiments.Domain.Result;
+using MedicalAppoiments.Persistance.Interfaces.Iusers;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,87 @@ namespace MedicalAppointment.users.api.Controllers
     [ApiController]
     public class PatientsController : ControllerBase
     {
-        // GET: api/<Patients>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IPatientsRepository _patientsRepository;
+
+        public PatientsController(IPatientsRepository patientsRepository)
         {
-            return new string[] { "value1", "value2" };
+            _patientsRepository = patientsRepository;
+        }
+
+        // GET: api/<Patients>
+        [HttpGet("GetAllPatients")]
+        public async Task<IActionResult> Get()
+        {
+            var result = await _patientsRepository.GetAll();
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // GET api/<Patients>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetByPatientID")]
+
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var result = await _patientsRepository.GetEntityBy(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // POST api/<Patients>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("SavePatient")]
+
+        public async Task<IActionResult> Save([FromBody] Patients entity)
         {
+            if (entity == null)
+            {
+                return BadRequest(new OperationResult
+                {
+                    success = false,
+                    message = "La entidad es requerida."
+                });
+            }
+
+            var result = await _patientsRepository.Save(entity);
+
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         // PUT api/<Patients>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdatePatient")]
+        public async Task<IActionResult> Put([FromBody] Patients patients)
         {
+            var result = await _patientsRepository.Update(patients);
+
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
         }
 
         // DELETE api/<Patients>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("RemovePatient")]
+        public async Task<IActionResult> Deleted([FromBody] Patients patients)
         {
+            var result = await _patientsRepository.Remove(patients);
+
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }
