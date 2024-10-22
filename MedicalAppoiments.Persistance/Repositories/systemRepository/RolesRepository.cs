@@ -158,8 +158,8 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
 
             try
             {
-                var status = await _medicalAppointmentContext.Status.FindAsync(id);
-                if (status == null)
+                var roles = await _medicalAppointmentContext.Roles.FindAsync(id);
+                if (roles == null)
                 {
                     operationResult.success = false;
                     operationResult.message = "El Rol no existe.";
@@ -167,7 +167,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
                 }
 
                 operationResult.success = true;
-                operationResult.Data = status;
+                operationResult.Data = roles;
             }
             catch (Exception ex)
             {
