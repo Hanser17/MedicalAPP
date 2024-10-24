@@ -23,7 +23,7 @@ namespace MedicalAppoiments.Persistance.Context
         #region insurance entities
         public DbSet<InsuranceProviders> InsuranceProviders { get; set; }
 
-        public DbSet<NetworkType> NetworkTypes { get; set; }
+        public DbSet<NetworkType> NetworkType { get; set; }
         #endregion
 
         #region medical entities

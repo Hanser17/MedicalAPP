@@ -14,6 +14,8 @@ namespace MedicalAppoiments.Domain.Entities.insurance
         public int NetworkTypeId { get; set; }
         public string? Name { get; set; }
 
+        public bool IsActive { get; set; }
+
 
     }
 }

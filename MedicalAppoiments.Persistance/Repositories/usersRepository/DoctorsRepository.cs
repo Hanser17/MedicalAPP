@@ -74,7 +74,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error guardando Datos del paciente.";
+                operationResult.message = "Error guardando Datos del Doctor.";
                 _logger.LogError(operationResult.message, ex);
             }
 
@@ -140,7 +140,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 if (await base.Exists(doctor => doctor.DoctorID == entity.DoctorID))
                 {
                     operationResult.success = false;
-                    operationResult.message = "El Doctor ID ta esta asignanado a otro paciente ";
+                    operationResult.message = "El Doctor ID ta esta asignanado a otro Doctor ";
                     return operationResult;
                 }
 
@@ -188,10 +188,10 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 if (DoctortoRemove == null)
                 {
                     operationResult.success = false;
-                    operationResult.message = "El User ID no existe";
+                    operationResult.message = "El Doctor ID no existe";
                     return operationResult;
                 }
-                DoctortoRemove.IsActive = entity.IsActive;
+                DoctortoRemove.IsActive = false;
                 DoctortoRemove.UpdatedAt = DateTime.Now;
 
             }
@@ -220,7 +220,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error opteniendo todos los Users";
+                operationResult.message = "Error opteniendo todos los Doctores";
                 _logger.LogError(operationResult.message, ex);
             }
 
@@ -245,7 +245,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 if (doctor == null)
                 {
                     operationResult.success = false;
-                    operationResult.message = "El User no existe.";
+                    operationResult.message = "El Doctor no existe.";
                     return operationResult;
                 }
 
@@ -255,7 +255,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error al obtener el user.";
+                operationResult.message = "Error al obtener el doctor.";
                 _logger.LogError(operationResult.message, ex);
             }
 

@@ -31,7 +31,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
                 operationResult.message = "El ID no valido  ";
                 return operationResult;
             }
-            if (entity.Message == null)
+            if (string.IsNullOrEmpty(entity.Message))
             {
                 operationResult.success = false;
                 operationResult.message = "Mesaje no Valido ";
@@ -96,12 +96,6 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
             {
                 operationResult.success = false;
                 operationResult.message = "El ID no valido  ";
-                return operationResult;
-            }
-            if (entity.Message == null)
-            {
-                operationResult.success = false;
-                operationResult.message = "Mesaje no Valido ";
                 return operationResult;
             }
             try

@@ -29,9 +29,10 @@ namespace MedicalAppoiments.Domain.Entities.insurance
         public string? LogoUrl { get; set; }
 
         public bool IsPreferred { get; set; }
+        public int NetworkTypeId { get; set; }
 
         public string? CustomerSupportContact { get; set; }
-        public string? AcceptedRegions { get; }
+        public string? AcceptedRegions { get; set; }
 
         public double? MaxCoverageAmount { get; set; }
 
