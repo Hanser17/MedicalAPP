@@ -9,7 +9,7 @@ namespace MedicalAppoiments.Domain.Entities.medical
     public class Specialties : BaseEntity
     {
         [Key]
-        public int SpecialtyID { get; set; }
+        public Int16 SpecialtyID { get; set; }
         public string? SpecialtyName { get; set; }
 
         public bool IsActive { get; set; }

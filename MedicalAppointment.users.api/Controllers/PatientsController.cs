@@ -1,6 +1,7 @@
 ﻿using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
+using MedicalAppointment.Application.Interfaces.Iusersservice;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,18 +12,17 @@ namespace MedicalAppointment.users.api.Controllers
     [ApiController]
     public class PatientsController : ControllerBase
     {
-        private readonly IPatientsRepository _patientsRepository;
+        private readonly IPatientService _patientService;
 
-        public PatientsController(IPatientsRepository patientsRepository)
+        public PatientsController(IPatientService patientService)
         {
-            _patientsRepository = patientsRepository;
+            _patientService = patientService;
         }
 
-        // GET: api/<Patients>
         [HttpGet("GetAllPatients")]
         public async Task<IActionResult> Get()
         {
-            var result = await _patientsRepository.GetAll();
+            var result = await _patientService.GetAllPatients();
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -30,12 +30,10 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result.Data);
         }
 
-        // GET api/<Patients>/5
         [HttpGet("GetByPatientID")]
-
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _patientsRepository.GetEntityBy(id);
+            var result = await _patientService.GetPatientById(id);
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -43,22 +41,12 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result.Data);
         }
 
-        // POST api/<Patients>
         [HttpPost("SavePatient")]
-
         public async Task<IActionResult> Save([FromBody] Patients entity)
         {
-            if (entity == null)
-            {
-                return BadRequest(new OperationResult
-                {
-                    success = false,
-                    message = "La entidad es requerida."
-                });
-            }
+            
 
-            var result = await _patientsRepository.Save(entity);
-
+            var result = await _patientService.SavePatientAsync(entity);
             if (!result.success)
             {
                 return BadRequest(result);
@@ -67,26 +55,21 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result);
         }
 
-        // PUT api/<Patients>/5
         [HttpPut("UpdatePatient")]
         public async Task<IActionResult> Put([FromBody] Patients patients)
         {
-            var result = await _patientsRepository.Update(patients);
-
+            var result = await _patientService.UpdatePatientAsync(patients);
             if (!result.success)
             {
                 return BadRequest(result);
             }
             return Ok(result);
-
         }
 
-        // DELETE api/<Patients>/5
         [HttpDelete("RemovePatient")]
         public async Task<IActionResult> Deleted([FromBody] Patients patients)
         {
-            var result = await _patientsRepository.Remove(patients);
-
+            var result = await _patientService.RemovePatientAsync(patients);
             if (!result.success)
             {
                 return BadRequest(result);

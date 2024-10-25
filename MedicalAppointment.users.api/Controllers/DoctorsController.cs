@@ -1,7 +1,6 @@
 ﻿using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
-using MedicalAppoiments.Persistance.Interfaces.Iusers;
-using MedicalAppoiments.Persistance.Repositories.usersRepository;
+using MedicalAppointment.Application.Interfaces.Iusersservice;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,16 +11,17 @@ namespace MedicalAppointment.users.api.Controllers
     [ApiController]
     public class DoctorsController : ControllerBase
     {
-        private readonly IDoctorsRepository _doctorRepository;
-        public DoctorsController(IDoctorsRepository doctorRepository)
+        private readonly IDoctorService _doctorService;
+
+        public DoctorsController(IDoctorService doctorService)
         {
-            _doctorRepository = doctorRepository;
+            _doctorService = doctorService;
         }
-        // GET: api/<Doctors>
+
         [HttpGet("GetAllDoctor")]
         public async Task<IActionResult> Get()
         {
-            var result = await _doctorRepository.GetAll();
+            var result = await _doctorService.GetAllDoctorsAsync();
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -29,12 +29,10 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result.Data);
         }
 
-        // GET api/<Doctors>/5
         [HttpGet("GetByDoctorID")]
-
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _doctorRepository.GetEntityBy(id);
+            var result = await _doctorService.GetDoctorByIdAsync(id);
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -42,9 +40,7 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result.Data);
         }
 
-        // POST api/<Doctors>
         [HttpPost("SaveDoctor")]
-
         public async Task<IActionResult> Save([FromBody] Doctors entity)
         {
             if (entity == null)
@@ -56,8 +52,7 @@ namespace MedicalAppointment.users.api.Controllers
                 });
             }
 
-            var result = await _doctorRepository.Save(entity);
-
+            var result = await _doctorService.SaveDoctorAsync(entity);
             if (!result.success)
             {
                 return BadRequest(result);
@@ -66,26 +61,21 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result);
         }
 
-        // PUT api/<Doctors>/5
         [HttpPut("UpdateDoctor")]
         public async Task<IActionResult> Put([FromBody] Doctors doctor)
         {
-            var result = await _doctorRepository.Update(doctor);
-
+            var result = await _doctorService.UpdateDoctorAsync(doctor);
             if (!result.success)
             {
                 return BadRequest(result);
             }
             return Ok(result);
-
         }
 
-        // DELETE api/<Doctors>/5
         [HttpDelete("RemoveDoctor")]
         public async Task<IActionResult> Deleted([FromBody] Doctors doctor)
         {
-            var result = await _doctorRepository.Remove(doctor);
-
+            var result = await _doctorService.RemoveDoctorAsync(doctor);
             if (!result.success)
             {
                 return BadRequest(result);

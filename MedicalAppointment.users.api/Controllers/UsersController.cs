@@ -1,11 +1,8 @@
 ﻿
-using MedicalAppoiments.Domain.Entities.system;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
-using MedicalAppoiments.Persistance.Interfaces.Iusers;
+using MedicalAppointment.Application.Interfaces.Iusersservice;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MedicalAppointment.users.api.Controllers
 {
@@ -13,16 +10,17 @@ namespace MedicalAppointment.users.api.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUsersRepository _userRepository;
-        public UsersController(IUsersRepository userRepository)
+        private readonly IUsersService _userService;
+
+        public UsersController(IUsersService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
-        // GET: api/<Users>
+
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> Get()
         {
-            var result = await _userRepository.GetAll();
+            var result = await _userService.GetAllUsers();
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -30,12 +28,10 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result.Data);
         }
 
-        // GET api/<Users>/5
         [HttpGet("GetByUserID")]
-
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _userRepository.GetEntityBy(id);
+            var result = await _userService.GetUserById(id);
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -43,51 +39,42 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result.Data);
         }
 
-        // POST api/<Users>
-        [HttpPost ("SaveUser")]
-        
-            public async Task<IActionResult> Save([FromBody] Users entity)
+        [HttpPost("SaveUser")]
+        public async Task<IActionResult> Save([FromBody] Users entity)
+        {
+            if (entity == null)
             {
-                if (entity == null)
+                return BadRequest(new OperationResult
                 {
-                    return BadRequest(new OperationResult
-                    {
-                        success = false,
-                        message = "La entidad es requerida."
-                    });
-                }
-
-                var result = await _userRepository.Save(entity);
-
-                if (!result.success)
-                {
-                    return BadRequest(result);
-                }
-
-                return Ok(result);
+                    success = false,
+                    message = "La entidad es requerida."
+                });
             }
 
+            var result = await _userService.SaveUser(entity);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
 
-        // PUT api/<Users>/5
+            return Ok(result);
+        }
+
         [HttpPut("UpdateUser")]
         public async Task<IActionResult> Put([FromBody] Users users)
         {
-            var result = await _userRepository.Update(users);
-
+            var result = await _userService.UpdateUser(users);
             if (!result.success)
             {
                 return BadRequest(result);
             }
             return Ok(result);
-
         }
 
-        // DELETE api/<Users>/5
         [HttpDelete("RemoveUser")]
-        public async Task<IActionResult> Deleted([FromBody] Users users)
+        public async Task<IActionResult> Deleted(int id)
         {
-            var result = await _userRepository.Remove(users);
-
+            var result = await _userService.RemoveUser(id);
             if (!result.success)
             {
                 return BadRequest(result);

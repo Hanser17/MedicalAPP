@@ -23,6 +23,7 @@ namespace MedicalAppoiments.Domain.Entities.users
 
         public bool IsActive { get; set; }
 
+        public int UserID { get; set; }
 
 
     }

@@ -11,7 +11,7 @@ namespace MedicalAppoiments.Domain.Entities.users
     {
         [Key]
         public int DoctorID { get; set; }
-        public int SpecialtyID { get; set; }
+        public Int16 SpecialtyID { get; set; }
         public string? LicenseNumber { get; set; }
         public string? PhoneNumber { get; set; }
         public int YearsOfExperience { get; set; }
@@ -23,6 +23,8 @@ namespace MedicalAppoiments.Domain.Entities.users
         public DateTime LicenseExpirationDate { get; set; }
 
         public bool IsActive { get; set; }
+
+        public int UserID { get; set; }
 
 
 

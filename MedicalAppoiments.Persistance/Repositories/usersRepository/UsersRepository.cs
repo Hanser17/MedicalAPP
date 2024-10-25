@@ -199,8 +199,16 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             {
 
                 var users = await _medicalAppointmentContext.Users.ToListAsync();
-                operationResult.success = true;
-                operationResult.Data = users;
+                if (users == null || !users.Any())
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontraron pacientes.";
+                }
+                else
+                {
+                    operationResult.success = true;
+                    operationResult.Data = users;
+                }
             }
             catch (Exception ex)
             {

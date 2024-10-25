@@ -197,8 +197,8 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                                    select new
                                    {
                                        AppointmentID = appointments.AppointmentID,
-                                       DoctorFirstName = doctors.FirstName,
-                                       DoctorLastname = doctors.LastName,
+                                      // DoctorFirstName = doctors.FirstName,
+                                     //  DoctorLastname = doctors.LastName,
                                        Specialty = specialty.SpecialtyName,
                                        StatusName = status.StatusName,
                                        CreatedAt = appointments.CreatedAt

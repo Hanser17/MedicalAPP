@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\IappointmentsService\" />
+    <Folder Include="Interfaces\IinsuranceService\" />
+    <Folder Include="Interfaces\ImedicalService\" />
+    <Folder Include="Interfaces\IsystemService\" />
+    <Folder Include="Service\insurance.Service\" />
+    <Folder Include="Service\appointments.Service\" />
+    <Folder Include="Service\medical.Service\" />
+    <Folder Include="Service\system.Service\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MedicalAppoiments.Persistance\MedicalAppoiments.Persistance.csproj" />
+  </ItemGroup>
+
+</Project>

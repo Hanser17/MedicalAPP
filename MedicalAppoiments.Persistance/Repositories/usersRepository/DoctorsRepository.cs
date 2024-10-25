@@ -1,10 +1,13 @@
-﻿using MedicalAppoiments.Domain.Entities.users;
+﻿
+using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
+using MedicalAppoiments.Persistance.Models.usersModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 
 namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 {
@@ -65,6 +68,27 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             {
                 operationResult.success = false;
                 operationResult.message = "Licencia ya esta expirada";
+                return operationResult;
+            }
+
+            if(entity.UserID <=0) 
+            {
+                operationResult.success = false;
+                operationResult.message = "User ID no valido";
+                return operationResult;
+            }
+            var userExists = await _medicalAppointmentContext.Users.AnyAsync(u => u.UserID == entity.UserID);
+            if (!userExists)
+            {
+                operationResult.success = false;
+                operationResult.message = "El UserID proporcionado no existe, primero registrese como usuario y eliga un role";
+                return operationResult;
+            }
+            var user = await _medicalAppointmentContext.Users.FirstOrDefaultAsync(u => u.UserID == entity.UserID);
+            if (user.RoleID != 2)
+            {
+                operationResult.success = false;
+                operationResult.message = "El usuario no está registrado para ser doctor.";
                 return operationResult;
             }
             try
@@ -212,21 +236,34 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
+                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
+                                              join d in _medicalAppointmentContext.Doctors on u.UserID equals d.UserID
+                                              join s in _medicalAppointmentContext.Specialties on d.SpecialtyID equals s.SpecialtyID
+                                              where d.IsActive == true && r.RoleID == 2
+                                              select new DoctorsModel
+                                              {   RoleName = r.RoleName,
+                                                  DoctorID = d.DoctorID,
+                                                  FirstName = u.FirstName,
+                                                  LastName = u.LastName,
+                                                  ConsultationFee = d.ConsultationFee,
+                                                  SpecialtyName = s.SpecialtyName,
+                                                  IsActive = d.IsActive
+                                              }).ToListAsync(); ;
 
-                var doctor = await _medicalAppointmentContext.Doctors.ToListAsync();
-               operationResult.success = true;
-                operationResult.Data = doctor;
+
+                operationResult.success = true;
             }
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error opteniendo todos los Doctores";
+                operationResult.message = "Error obteniendo todos los Doctores";
                 _logger.LogError(operationResult.message, ex);
             }
 
-            return operationResult;
-
+            return operationResult; 
         }
+
 
         public async Task<OperationResult> GetEntityBy(int id)
         {
@@ -238,19 +275,34 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 operationResult.message = "Se requiere un ID válido para realizar esta operación.";
                 return operationResult;
             }
-
             try
             {
-                var doctor = await _medicalAppointmentContext.Doctors.FindAsync(id);
-                if (doctor == null)
+
+                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
+                                              join d in _medicalAppointmentContext.Doctors on u.UserID equals d.UserID
+                                              join s in _medicalAppointmentContext.Specialties on d.SpecialtyID equals s.SpecialtyID
+                                              where d.IsActive && r.RoleID == 2 && d.DoctorID == id
+                                              select new DoctorsModel
+                                              {
+                                                  RoleName = r.RoleName,
+                                                  DoctorID = d.DoctorID,
+                                                  FirstName = u.FirstName,
+                                                  LastName = u.LastName,
+                                                  ConsultationFee = d.ConsultationFee,
+                                                  SpecialtyName = s.SpecialtyName,
+                                                  IsActive = d.IsActive
+                                              }).FirstOrDefaultAsync();;
+                if (operationResult.Data == null)
                 {
                     operationResult.success = false;
-                    operationResult.message = "El Doctor no existe.";
+                    operationResult.message = "No se encontró un doctor con el ID proporcionado.";
                     return operationResult;
                 }
-
-                operationResult.success = true;
-                operationResult.Data = doctor;
+                else
+                {
+                    operationResult.success = true;
+                }
             }
             catch (Exception ex)
             {

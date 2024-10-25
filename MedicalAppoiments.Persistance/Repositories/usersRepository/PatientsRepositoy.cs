@@ -4,6 +4,7 @@ using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
+using MedicalAppoiments.Persistance.Models.usersModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -262,10 +263,25 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
+                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
+                                              join p in _medicalAppointmentContext.Patients on u.UserID equals p.UserID
+                                              join i in _medicalAppointmentContext.InsuranceProviders on p.InsuranceProviderID equals i.InsuranceProviderID
+                                              where r.RoleID == 3 && p.IsActive == true
+                                              select new PatientsModel
+                                              {
+                                                RoleName = r.RoleName,
+                                                PatientID = p.PatientID,
+                                                FirstName = u.FirstName,
+                                                LastName = u.LastName,
+                                                DateOfBirth = p.DateOfBirth,
+                                                IsActive = p.IsActive,
+                                                InsuranceName = i.Name
+                                            }).ToListAsync(); 
 
-                var patients = await _medicalAppointmentContext.Patients.ToListAsync();
-                operationResult.success = true;
-                operationResult.Data = patients;
+
+                    operationResult.success = true;
+    
             }
             catch (Exception ex)
             {
@@ -291,16 +307,26 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
-                var patients = await _medicalAppointmentContext.Patients.FindAsync(id);
-                if (patients == null)
-                {
-                    operationResult.success = false;
-                    operationResult.message = "El patient no existe.";
-                    return operationResult;
-                }
+                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
+                                              join p in _medicalAppointmentContext.Patients on u.UserID equals p.UserID
+                                              join i in _medicalAppointmentContext.InsuranceProviders on p.InsuranceProviderID equals i.InsuranceProviderID
+                                              where r.RoleID == 3 && p.IsActive == true && p.PatientID == id
+                                              select new PatientsModel
+                                              {
+                                                  RoleName = r.RoleName,
+                                                  PatientID = p.PatientID,
+                                                  FirstName = u.FirstName,
+                                                  LastName = u.LastName,
+                                                  DateOfBirth = p.DateOfBirth,
+                                                  IsActive = p.IsActive,
+                                                  InsuranceName = i.Name
+                                              }).ToListAsync();
+
 
                 operationResult.success = true;
-                operationResult.Data = patients;
+                
+               
             }
             catch (Exception ex)
             {
