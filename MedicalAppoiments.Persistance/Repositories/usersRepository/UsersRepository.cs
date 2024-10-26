@@ -176,9 +176,11 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                     operationResult.message = "El User ID no existe";
                     return operationResult;
                 }
-                usertoRemove.IsActive = entity.IsActive;
+                usertoRemove.IsActive = false;
                 usertoRemove.UpdatedAt = DateTime.Now;
-               
+
+                operationResult = await base.Remove(usertoRemove);
+
             }
             catch (Exception ex)
             {

@@ -61,7 +61,7 @@ namespace MedicalAppointment.users.api.Controllers
         }
 
         [HttpPut("UpdateUser")]
-        public async Task<IActionResult> Put([FromBody] Users users)
+        public async Task<IActionResult> Update([FromBody] Users users)
         {
             var result = await _userService.UpdateUser(users);
             if (!result.success)
