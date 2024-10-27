@@ -10,11 +10,9 @@
     <Folder Include="Interfaces\IappointmentsService\" />
     <Folder Include="Interfaces\IinsuranceService\" />
     <Folder Include="Interfaces\ImedicalService\" />
-    <Folder Include="Interfaces\IsystemService\" />
     <Folder Include="Service\insurance.Service\" />
     <Folder Include="Service\appointments.Service\" />
     <Folder Include="Service\medical.Service\" />
-    <Folder Include="Service\system.Service\" />
   </ItemGroup>
 
   <ItemGroup>

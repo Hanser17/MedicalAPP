@@ -18,7 +18,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
         public NotificationsRepository(MedicalAppointmentContext medicalAppointmentContext, ILogger<NotificationsRepository> logger)
            : base(medicalAppointmentContext)
         {
-            medicalAppointmentContext = medicalAppointmentContext;
+            _medicalAppointmentContext = medicalAppointmentContext;
             _logger = logger;
         }
 
@@ -61,6 +61,12 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
                 operationResult.message = "El ID no valido  ";
                 return operationResult;
             }
+            if (entity.NotificationID <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "El Notification ID no valido  ";
+                return operationResult;
+            }
             if (entity.Message == null)
             {
                 operationResult.success = false;
@@ -82,7 +88,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error actualizando el asiento.";
+                operationResult.message = "Error actualizando La Notificacion.";
                 _logger.LogError(operationResult.message, ex.ToString());
             }
             return operationResult;

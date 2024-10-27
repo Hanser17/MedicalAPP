@@ -1,7 +1,6 @@
 ﻿
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
-using MedicalAppoiments.Persistance.Base;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
 using MedicalAppointment.Application.Interfaces.Iusersservice;
 using Microsoft.Extensions.Logging;

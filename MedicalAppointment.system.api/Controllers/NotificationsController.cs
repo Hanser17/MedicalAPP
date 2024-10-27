@@ -1,29 +1,28 @@
 ﻿using MedicalAppoiments.Domain.Entities.system;
 using MedicalAppoiments.Domain.Result;
-using MedicalAppoiments.Persistance.Interfaces.Isystem;
-using MedicalAppoiments.Persistance.Repositories.systemRepository;
+using MedicalAppointment.Application.Interfaces.IsystemService;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace MedicalAppointment.system.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class NotificationsController : ControllerBase
     {
-        private readonly INotificationsRepository _notificationsRepository;
+        private readonly INotificationsService _notificationsService;
 
-        public NotificationsController(INotificationsRepository notificationsRepository)
+        public NotificationsController(INotificationsService notificationsService)
         {
-            _notificationsRepository = notificationsRepository;
+            _notificationsService = notificationsService;
         }
 
-        // GET: api/<NotificationsController>
         [HttpGet("GetAllNotifications")]
         public async Task<IActionResult> Get()
         {
-            var result = await _notificationsRepository.GetAll();
+            var result = await _notificationsService.GetAllNotificationsAsync();
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -31,11 +30,10 @@ namespace MedicalAppointment.system.api.Controllers
             return Ok(result.Data);
         }
 
-        // GET api/<NotificationsController>/5
-        [HttpGet("GetByIdNotifications")]
+        [HttpGet("GetByIdNotifications/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var result = await _notificationsRepository.GetEntityBy(id);
+            var result = await _notificationsService.GetNotificationByIdAsync(id);
             if (!result.success)
             {
                 return NotFound(result.message);
@@ -43,8 +41,7 @@ namespace MedicalAppointment.system.api.Controllers
             return Ok(result.Data);
         }
 
-        // POST api/<NotificationsController>
-        [HttpPost("SaveRoles")]
+        [HttpPost("SaveNotifications")]
         public async Task<IActionResult> Save([FromBody] Notifications entity)
         {
             if (entity == null)
@@ -56,8 +53,7 @@ namespace MedicalAppointment.system.api.Controllers
                 });
             }
 
-            var result = await _notificationsRepository.Save(entity);
-
+            var result = await _notificationsService.SaveNotificationAsync(entity);
             if (!result.success)
             {
                 return BadRequest(result);
@@ -66,31 +62,29 @@ namespace MedicalAppointment.system.api.Controllers
             return Ok(result);
         }
 
-        // PUT api/<NotificationsController>/5
-        [HttpPut("UpdateRoles")]
-        public async Task<IActionResult> Put([FromBody] Notifications roles)
+        [HttpPut("UpdateNotifications")]
+        public async Task<IActionResult> Put([FromBody] Notifications notification)
         {
-            var result = await _notificationsRepository.Update(roles);
-
+            var result = await _notificationsService.UpdateNotificationAsync(notification);
             if (!result.success)
             {
                 return BadRequest(result);
             }
             return Ok(result);
-
         }
 
-        // DELETE api/<NotificationsController>/5
-        [HttpDelete("RemoveRole")]
-        public async Task<IActionResult> Deleted([FromBody] Notifications roles)
+        [HttpDelete("RemoveNotifications")]
+        public async Task<IActionResult> Delete([FromBody] Notifications notification)
         {
-            var result = await _notificationsRepository.Remove(roles);
-
+            var result = await _notificationsService.RemoveNotificationAsync(notification);
             if (!result.success)
             {
                 return BadRequest(result);
             }
             return Ok(result);
         }
+
+       
     }
 }
+
