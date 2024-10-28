@@ -3,6 +3,7 @@ using MedicalAppoiments.Persistance.Interfaces.Isystem;
 using MedicalAppoiments.Persistance.Repositories.systemRepository;
 using MedicalAppointment.Application.Interfaces.IsystemService;
 using MedicalAppointment.Application.Service.system;
+using MedicalAppointment.Application.Service.system.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IStatusRepositoty, StatusRepositoty>();
 builder.Services.AddScoped<INotificationsRepository, NotificationsRepository>();
 
 builder.Services.AddScoped<INotificationsService, NotificationsService>();
+builder.Services.AddScoped<IRolesService, RolesService>();
 
 
 builder.Services.AddControllers();

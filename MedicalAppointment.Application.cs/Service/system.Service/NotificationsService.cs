@@ -4,7 +4,6 @@ using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Interfaces.Isystem;
 using MedicalAppointment.Application.Interfaces.IsystemService;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace MedicalAppointment.Application.Service.system
 {

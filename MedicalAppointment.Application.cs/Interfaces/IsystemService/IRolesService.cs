@@ -9,9 +9,9 @@ namespace MedicalAppointment.Application.Interfaces.IsystemService
     {
         Task<OperationResult> GetAllRoles();
         Task<OperationResult> GetRolesByID(int id);
-        Task<OperationResult> SaveRolesAsync(Status status);
-        Task<OperationResult> UpdateRolesAsync(Status status);
-        Task<OperationResult> RemoveRolesAsync(Status status);
+        Task<OperationResult> SaveRolesAsync(Roles roles);
+        Task<OperationResult> UpdateRolesAsync(Roles roles);
+        Task<OperationResult> RemoveRolesAsync(Roles roles);
 
     }
 }

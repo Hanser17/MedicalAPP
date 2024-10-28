@@ -52,7 +52,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
         public async override Task<OperationResult> Update(Roles entity)
         {
             OperationResult operationResult = new OperationResult();
-            if (entity.RoleName == null || entity.RoleName.Length <= 50)
+            if (entity.RoleName == null || entity.RoleName.Length >= 50)
                 {
                     operationResult.success = false;
                     operationResult.message = "RoleName requerido y debe contener menor de 50 caracteres.";
