@@ -125,7 +125,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
 
         }
 
-        public async Task<OperationResult> GetAll()
+        public async override Task<OperationResult> GetAll()
         {
             OperationResult operationResult = new OperationResult();
 
@@ -145,7 +145,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
             return operationResult;
         }
 
-        public async Task<OperationResult> GetEntityBy(int id)
+        public async override Task<OperationResult> GetEntityBy(int id)
         {
             OperationResult operationResult = new OperationResult();
 

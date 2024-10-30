@@ -81,7 +81,7 @@ namespace MedicalAppoiments.Persistance.Base
             return result;
         }
 
-        public async virtual Task<OperationResult> Remove(TEntity entity)
+        public  virtual async Task<OperationResult> Remove(TEntity entity)
         {
             OperationResult result = new OperationResult();
 

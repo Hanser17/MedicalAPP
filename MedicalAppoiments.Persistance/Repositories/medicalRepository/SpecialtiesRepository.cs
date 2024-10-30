@@ -61,7 +61,6 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
         }
 
 
-
         public async override Task<OperationResult> Update(Specialties entity)
         {
             var operationResult = new OperationResult();
@@ -187,7 +186,7 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
 
         }
 
-        public async Task<OperationResult> GetEntityBy(int id)
+        public async override Task<OperationResult> GetEntityBy(int id)
         {
             
 

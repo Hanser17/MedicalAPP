@@ -70,7 +70,6 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
         }
 
 
-
         public async override Task<OperationResult> Update(MedicalRecords entity)
         {
             var operationResult = new OperationResult();
@@ -131,7 +130,7 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
             return operationResult;
         }
 
-        public async Task<OperationResult> GetAll()
+        public async override Task<OperationResult> GetAll()
         {
 
             var operationResult = new OperationResult();
@@ -153,7 +152,7 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
             return operationResult;
         }
 
-        public async Task<OperationResult> GetEntityBy(int id)
+        public async override Task<OperationResult> GetEntityBy(int id)
         {
             var operationResult = new OperationResult();
 

@@ -154,7 +154,7 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
 
         }
 
-        public async Task<OperationResult> GetEntityBy(int id)
+        public async override Task<OperationResult> GetEntityBy(int id)
         {
             OperationResult operationResult = new OperationResult();
 
