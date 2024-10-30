@@ -1,6 +1,7 @@
 ﻿using MedicalAppoiments.Domain.Entities.system;
 using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Interfaces.Isystem;
+using MedicalAppointment.Application.Interfaces.IsystemService;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,18 +12,18 @@ namespace MedicalAppointment.system.api.Controllers
     [ApiController]
     public class StatusController : ControllerBase
     {
-        private readonly IStatusRepositoty _StatusRepository;
+        private readonly IStatusService _statusService;
 
-        public StatusController(IStatusRepositoty statusRepository)
+        public StatusController(IStatusService statusService)
         {
-            _StatusRepository = statusRepository;
+            _statusService = statusService;
         }
 
         // GET: api/<StatusController>
         [HttpGet("GetAllStatus")]
         public async Task<IActionResult> Get()
         {
-            var result = await _StatusRepository.GetAll();
+            var result = await _statusService.GetAllStatus();
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -35,7 +36,7 @@ namespace MedicalAppointment.system.api.Controllers
 
             public async Task<IActionResult> Get(int id)
             {
-                var result = await _StatusRepository.GetEntityBy(id);
+                var result = await _statusService.GetStatusByID(id);
                 if (!result.success)
                 {
                     return BadRequest(result.message);
@@ -56,7 +57,7 @@ namespace MedicalAppointment.system.api.Controllers
                     });
                 }
 
-                var result = await _StatusRepository.Save(entity);
+                var result = await _statusService.SaveStatusAsync(entity);
 
                 if (!result.success)
                 {
@@ -70,7 +71,7 @@ namespace MedicalAppointment.system.api.Controllers
             [HttpPut("UpdateStatus")]
             public async Task<IActionResult> Put(  [FromBody] Status status)
             {
-                var result = await _StatusRepository.Update(status);
+                var result = await _statusService.UpdateStatusAsync(status);
 
                 if (!result.success)
                 {
@@ -84,7 +85,7 @@ namespace MedicalAppointment.system.api.Controllers
             [HttpDelete("RemoveStatus")]
             public async Task<IActionResult> Deleted([FromBody] Status status)
             {
-                var result = await _StatusRepository.Remove(status);
+                var result = await _statusService.RemoveStatusAsync(status);
 
                 if (!result.success)
                 {

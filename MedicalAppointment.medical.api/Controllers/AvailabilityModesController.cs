@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MedicalAppoiments.Domain.Entities.medical;
+using MedicalAppoiments.Domain.Entities.system;
+using MedicalAppoiments.Domain.Result;
+using MedicalAppointment.Application.Interfaces.ImedicalService;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +12,80 @@ namespace MedicalAppointment.medical.api.Controllers
     [ApiController]
     public class AvailabilityModesController : ControllerBase
     {
-        // GET: api/<AvailabilityModesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IAvailabilityModesService _availabilityModesService;
+
+        public AvailabilityModesController ( IAvailabilityModesService availabilityModesService)
         {
-            return new string[] { "value1", "value2" };
+            _availabilityModesService = availabilityModesService;
+        }
+        // GET: api/<AvailabilityModesController>
+        [HttpGet("GetAllAvailabilityModes")]
+        public async Task<IActionResult> Get()
+        {
+            var result = await _availabilityModesService.GetAllAvailabilityModesAsync();
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // GET api/<AvailabilityModesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetByIdAllAvailabilityModes/{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var result = await _availabilityModesService.GetByIDAvailabilityModesAsync(id);
+            if (!result.success)
+            {
+                return NotFound(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // POST api/<AvailabilityModesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("SaveAvailabilityModes")]
+        public async Task<IActionResult> Save([FromBody] AvailabilityModes entity)
         {
+            if (entity == null)
+            {
+                return BadRequest(new OperationResult
+                {
+                    success = false,
+                    message = "La entidad es requerida."
+                });
+            }
+
+            var result = await _availabilityModesService.SaveAvailabilityModesAsync(entity);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         // PUT api/<AvailabilityModesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdateAvailabilityModes")]
+        public async Task<IActionResult> Put([FromBody] AvailabilityModes availabilityModes)
         {
+            var result = await _availabilityModesService.UpdateAvailabilityModesAsync(availabilityModes);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         // DELETE api/<AvailabilityModesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("RemoveAvailabilityModes")]
+        public async Task<IActionResult> Delete([FromBody] AvailabilityModes availabilityModes)
         {
+            var result = await _availabilityModesService.DeleteAvailabilityModesAsync(availabilityModes);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }

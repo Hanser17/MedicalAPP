@@ -17,7 +17,7 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
         public MedicalRecordsRepository(MedicalAppointmentContext medicalAppointmentContext, ILogger<MedicalRecordsRepository> logger)
            : base(medicalAppointmentContext)
         {
-            medicalAppointmentContext = medicalAppointmentContext;
+            _medicalAppointmentContext = medicalAppointmentContext;
             _logger = logger;
         }
         public async override Task<OperationResult> Save(MedicalRecords entity)

@@ -18,6 +18,7 @@ builder.Services.AddScoped<INotificationsRepository, NotificationsRepository>();
 
 builder.Services.AddScoped<INotificationsService, NotificationsService>();
 builder.Services.AddScoped<IRolesService, RolesService>();
+builder.Services.AddScoped<IStatusService, StatusService>();
 
 
 builder.Services.AddControllers();

@@ -6,6 +6,7 @@ using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Imedical;
 using MedicalAppoiments.Persistance.Repositories.systemRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
 
@@ -19,7 +20,7 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
         public SpecialtiesRepository(MedicalAppointmentContext medicalAppointmentContext, ILogger<SpecialtiesRepository> logger)
            : base(medicalAppointmentContext)
         {
-            medicalAppointmentContext = medicalAppointmentContext;
+            _medicalAppointmentContext = medicalAppointmentContext;
             _logger = logger;
         }
 
@@ -188,6 +189,8 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
 
         public async Task<OperationResult> GetEntityBy(int id)
         {
+            
+
             var operationResult = new OperationResult();
 
            
@@ -200,8 +203,9 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
 
             try
             {
-                
-                var specialty = await _medicalAppointmentContext.Specialties.FindAsync(id);
+                short speciality = Convert.ToInt16(id);
+
+                var specialty = await _medicalAppointmentContext.Specialties.FindAsync(speciality);
 
                 if (specialty == null)
                 {

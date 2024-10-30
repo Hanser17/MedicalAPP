@@ -46,7 +46,7 @@ namespace MedicalAppoiments.Persistance.Repositories.systemRepository
         public async override Task<OperationResult> Update(Status entity)
         {
             OperationResult operationResult = new OperationResult();
-            if (entity.StatusName == null || entity.StatusName.Length <= 50)
+            if (entity.StatusName == null || entity.StatusName.Length >= 50)
             {
                 operationResult.success = false;
                 operationResult.message = "Status Name requerido y debe contener menor de 50 caracteres.";

@@ -9,10 +9,8 @@
   <ItemGroup>
     <Folder Include="Interfaces\IappointmentsService\" />
     <Folder Include="Interfaces\IinsuranceService\" />
-    <Folder Include="Interfaces\ImedicalService\" />
     <Folder Include="Service\insurance.Service\" />
     <Folder Include="Service\appointments.Service\" />
-    <Folder Include="Service\medical.Service\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MedicalAppoiments.Domain.Entities.medical;
+using MedicalAppoiments.Domain.Result;
+using MedicalAppointment.Application.Interfaces.ImedicalService;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,79 @@ namespace MedicalAppointment.medical.api.Controllers
     [ApiController]
     public class SpecialtiesController : ControllerBase
     {
-        // GET: api/<SpecialtiesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ISpecialtiesService _specialtiesService;
+
+        public SpecialtiesController(ISpecialtiesService specialtiesService)
         {
-            return new string[] { "value1", "value2" };
+            _specialtiesService = specialtiesService;
+        }
+        // GET: api/<SpecialtiesController>
+        [HttpGet("GetAllSpecialties")]
+        public async Task<IActionResult> Get()
+        {
+            var result = await _specialtiesService.GetAllSpecialtiesAsync();
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // GET api/<SpecialtiesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetByIdSpecialties/{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var result = await _specialtiesService.GetByIDSpecialtiesAsync(id);
+            if (!result.success)
+            {
+                return NotFound(result.message);
+            }
+            return Ok(result.Data);
         }
-
         // POST api/<SpecialtiesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("SaveSpecialties")]
+        public async Task<IActionResult> Save([FromBody] Specialties entity)
         {
+            if (entity == null)
+            {
+                return BadRequest(new OperationResult
+                {
+                    success = false,
+                    message = "La entidad es requerida."
+                });
+            }
+
+            var result = await _specialtiesService.SaveSpecialtiesAsync(entity);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         // PUT api/<SpecialtiesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdateSpecialties")]
+        public async Task<IActionResult> Put([FromBody] Specialties specialties)
         {
+            var result = await _specialtiesService.UpdateSpecialtiesAsync(specialties);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         // DELETE api/<SpecialtiesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("RemoveSpecialties")]
+        public async Task<IActionResult> Delete([FromBody] Specialties specialties)
         {
+            var result = await _specialtiesService.DeleteSpecialtiesAsync(specialties);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }

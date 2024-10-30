@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MedicalAppoiments.Persistance\MedicalAppoiments.Persistance.csproj" />
+    <ProjectReference Include="..\MedicalAppointment.Application.cs\MedicalAppointment.Application.csproj" />
   </ItemGroup>
 
 </Project>

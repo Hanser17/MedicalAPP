@@ -1,6 +1,8 @@
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Imedical;
 using MedicalAppoiments.Persistance.Repositories.medicalRepository;
+using MedicalAppointment.Application.Interfaces.ImedicalService;
+using MedicalAppointment.Application.Service.medical.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 
@@ -14,6 +16,10 @@ builder.Services.AddDbContext<MedicalAppointmentContext>(options => options.UseS
 builder.Services.AddScoped<IAvailabilityModesRepository, AvailabilityModesRepository>();
 builder.Services.AddScoped<IMedicalRecordsRepository, MedicalRecordsRepository>();
 builder.Services.AddScoped<ISpecialtiesRepository, SpecialtiesRepository>();
+
+builder.Services.AddScoped<IAvailabilityModesService, AvailabilityModesService>();
+builder.Services.AddScoped<IMedicalRecordsService, MedicalRecordsService>();
+builder.Services.AddScoped<ISpecialtiesService, SpecialtiesService>();
 
 
 builder.Services.AddControllers();

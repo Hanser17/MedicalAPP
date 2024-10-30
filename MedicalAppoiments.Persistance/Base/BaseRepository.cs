@@ -67,6 +67,8 @@ namespace MedicalAppoiments.Persistance.Base
             OperationResult result = new OperationResult();
             try
             {
+                
+
                 var entity = await this._entities.FindAsync(Id);
                 result.Data = entity;
             }

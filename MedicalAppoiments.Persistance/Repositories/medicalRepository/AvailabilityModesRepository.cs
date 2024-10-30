@@ -15,7 +15,7 @@ namespace MedicalAppoiments.Persistance.Repositories.medicalRepository
         public AvailabilityModesRepository(MedicalAppointmentContext medicalAppointmentContext, ILogger<AvailabilityModesRepository> logger)
            : base(medicalAppointmentContext)
         {
-            medicalAppointmentContext = medicalAppointmentContext;
+            _medicalAppointmentContext = medicalAppointmentContext;
             _logger = logger;
         }
 
