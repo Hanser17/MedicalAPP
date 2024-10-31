@@ -1,6 +1,8 @@
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iappointments;
 using MedicalAppoiments.Persistance.Repositories.appointmentsRepository;
+using MedicalAppointment.Application.Interfaces.IappointmentsService;
+using MedicalAppointment.Application.Service.appointments.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,9 @@ builder.Services.AddDbContext<MedicalAppointmentContext>(options => options.UseS
 //El registro de cada una de las dependecias Repositorios de configuration. //
 builder.Services.AddScoped<IAppointmentsRepository, AppointmentsRepository > ();
 builder.Services.AddScoped<IDoctorAvailabilityRepository, DoctorAvailabilityRepository>();
+
+builder.Services.AddScoped<IDoctorAvailabilityService, DoctorAvailabilityService>();
+builder.Services.AddScoped<IAppointmentsService, AppointmentsService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

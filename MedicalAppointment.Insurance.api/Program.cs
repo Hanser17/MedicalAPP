@@ -1,6 +1,8 @@
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iinsurance;
 using MedicalAppoiments.Persistance.Repositories.insuranceRepository;
+using MedicalAppointment.Application.Interfaces.IinsuranceService;
+using MedicalAppointment.Application.Service.insurance.Service;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ builder.Services.AddDbContext<MedicalAppointmentContext>(options => options.UseS
 //El registro de cada una de las dependecias Repositorios de configuration. //
 builder.Services.AddScoped<IInsuranceProvidersRepository, InsuranceProvidersRepository>();
 builder.Services.AddScoped<INetworkTypeRepository, NetworkTypeRepository>();
+
+builder.Services.AddScoped<IInsuranceProvidersService, InsuranceProvidersService>();
+builder.Services.AddScoped<INetworkTypeService, NetworkTypeService>();
 
 
 builder.Services.AddControllers();

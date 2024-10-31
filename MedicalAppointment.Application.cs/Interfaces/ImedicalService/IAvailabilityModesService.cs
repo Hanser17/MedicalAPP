@@ -6,12 +6,12 @@ namespace MedicalAppointment.Application.Interfaces.ImedicalService
 {
     public interface IAvailabilityModesService
     {
-        public Task<OperationResult> GetAllAvailabilityModesAsync();
-        public Task<OperationResult> GetByIDAvailabilityModesAsync(int id);
+         Task<OperationResult> GetAllAvailabilityModesAsync();
+         Task<OperationResult> GetByIDAvailabilityModesAsync(int id);
 
-        public Task<OperationResult> SaveAvailabilityModesAsync(AvailabilityModes availabilityModes);
-        public Task<OperationResult> UpdateAvailabilityModesAsync(AvailabilityModes availabilityModes);
+         Task<OperationResult> SaveAvailabilityModesAsync(AvailabilityModes availabilityModes);
+         Task<OperationResult> UpdateAvailabilityModesAsync(AvailabilityModes availabilityModes);
 
-        public Task<OperationResult> DeleteAvailabilityModesAsync(AvailabilityModes availabilityModes);
+         Task<OperationResult> DeleteAvailabilityModesAsync(AvailabilityModes availabilityModes);
     }
 }

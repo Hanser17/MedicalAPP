@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\IappointmentsService\" />
-    <Folder Include="Interfaces\IinsuranceService\" />
-    <Folder Include="Service\insurance.Service\" />
-    <Folder Include="Service\appointments.Service\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MedicalAppoiments.Persistance\MedicalAppoiments.Persistance.csproj" />
   </ItemGroup>
 

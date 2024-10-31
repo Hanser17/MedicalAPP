@@ -7,12 +7,12 @@ namespace MedicalAppointment.Application.Interfaces.ImedicalService
 {
     public interface  ISpecialtiesService
     {
-        public Task<OperationResult> GetAllSpecialtiesAsync();
-        public Task<OperationResult> GetByIDSpecialtiesAsync(int id);
+         Task<OperationResult> GetAllSpecialtiesAsync();
+         Task<OperationResult> GetByIDSpecialtiesAsync(int id);
 
-        public Task<OperationResult> SaveSpecialtiesAsync(Specialties specialties);
-        public Task<OperationResult> UpdateSpecialtiesAsync(Specialties specialties);
+         Task<OperationResult> SaveSpecialtiesAsync(Specialties specialties);
+         Task<OperationResult> UpdateSpecialtiesAsync(Specialties specialties);
 
-        public Task <OperationResult>DeleteSpecialtiesAsync(Specialties specialties);
+         Task <OperationResult>DeleteSpecialtiesAsync(Specialties specialties);
     }
 }

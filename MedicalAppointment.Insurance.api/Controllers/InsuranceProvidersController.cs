@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MedicalAppoiments.Domain.Entities.insurance;
+using MedicalAppoiments.Domain.Entities.users;
+using MedicalAppoiments.Domain.Result;
+using MedicalAppointment.Application.Interfaces.IinsuranceService;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +12,82 @@ namespace MedicalAppointment.Insurance.api.Controllers
     [ApiController]
     public class InsuranceProvidersController : ControllerBase
     {
-        // GET: api/<InsuranceProvidersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IInsuranceProvidersService _insuranceProvidersService;
+
+        public InsuranceProvidersController (IInsuranceProvidersService insuranceProvidersService)
         {
-            return new string[] { "value1", "value2" };
+            _insuranceProvidersService = insuranceProvidersService;
+        }
+
+
+
+        // GET: api/<InsuranceProvidersController>
+        [HttpGet("GetAllInsuranceProviders")]
+        public async Task<IActionResult> Get()
+        {
+            var result = await _insuranceProvidersService.GetAllInsuranceProvidersAsync();
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // GET api/<InsuranceProvidersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetByInsuranceProviders")]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var result = await _insuranceProvidersService.GetByIDInsuranceProvidersAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
         }
 
         // POST api/<InsuranceProvidersController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("SaveInsuranceProviders")]
+        public async Task<IActionResult> Save([FromBody] InsuranceProviders entity)
         {
+            if (entity == null)
+            {
+                return BadRequest(new OperationResult
+                {
+                    success = false,
+                    message = "La entidad es requerida."
+                });
+            }
+            var result = await _insuranceProvidersService.SaveInsuranceProvidersAsync(entity);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         // PUT api/<InsuranceProvidersController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdateInsuranceProviders")]
+        public async Task<IActionResult> Put([FromBody] InsuranceProviders insuranceProviders)
         {
+            var result = await _insuranceProvidersService.UpdateInsuranceProvidersAsync(insuranceProviders);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         // DELETE api/<InsuranceProvidersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("RemoveInsuranceProviders")]
+        public async Task<IActionResult> Deleted([FromBody] InsuranceProviders insuranceProviders)
         {
+            var result = await _insuranceProvidersService.DeleteInsuranceProvidersAsync(insuranceProviders);
+            if (!result.success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }

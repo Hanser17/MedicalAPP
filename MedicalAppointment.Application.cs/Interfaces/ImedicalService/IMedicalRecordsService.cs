@@ -6,12 +6,12 @@ namespace MedicalAppointment.Application.Interfaces.ImedicalService
 {
     public interface  IMedicalRecordsService
     {
-        public Task<OperationResult> GetAllMedicalRecordsAsync();
-        public Task<OperationResult> GetByIDMedicalRecordsAsync(int id);
+         Task<OperationResult> GetAllMedicalRecordsAsync();
+         Task<OperationResult> GetByIDMedicalRecordsAsync(int id);
 
-        public Task<OperationResult> SaveMedicalRecordsAsync(MedicalRecords medicalRecords);
-        public Task<OperationResult> UpdateMedicalRecordsAsync(MedicalRecords medicalRecords);
+         Task<OperationResult> SaveMedicalRecordsAsync(MedicalRecords medicalRecords);
+         Task<OperationResult> UpdateMedicalRecordsAsync(MedicalRecords medicalRecords);
 
-        public Task<OperationResult> DeleteMedicalRecordsAsync(MedicalRecords medicalRecords);
+         Task<OperationResult> DeleteMedicalRecordsAsync(MedicalRecords medicalRecords);
     }
 }
