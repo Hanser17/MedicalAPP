@@ -34,7 +34,7 @@ namespace MedicalAppoiments.Domain.Entities.insurance
         public string? CustomerSupportContact { get; set; }
         public string? AcceptedRegions { get; set; }
 
-        public double? MaxCoverageAmount { get; set; }
+        public decimal? MaxCoverageAmount { get; set; }
 
         public bool IsActive { get; set; }
 

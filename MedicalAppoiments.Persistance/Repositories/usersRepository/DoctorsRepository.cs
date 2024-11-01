@@ -71,26 +71,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 return operationResult;
             }
 
-            if(entity.UserID <=0) 
-            {
-                operationResult.success = false;
-                operationResult.message = "User ID no valido";
-                return operationResult;
-            }
-            var userExists = await _medicalAppointmentContext.Users.AnyAsync(u => u.UserID == entity.UserID);
-            if (!userExists)
-            {
-                operationResult.success = false;
-                operationResult.message = "El UserID proporcionado no existe, primero registrese como usuario y eliga un role";
-                return operationResult;
-            }
-            var user = await _medicalAppointmentContext.Users.FirstOrDefaultAsync(u => u.UserID == entity.UserID);
-            if (user.RoleID != 2)
-            {
-                operationResult.success = false;
-                operationResult.message = "El usuario no está registrado para ser doctor.";
-                return operationResult;
-            }
+    
             try
             {
                 operationResult = await base.Save(entity);
@@ -236,23 +217,31 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
-                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                operationResult.Data = await (from d in _medicalAppointmentContext.Doctors
+                                              join u in _medicalAppointmentContext.Users on d.DoctorID equals u.UserID
                                               join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
-                                              join d in _medicalAppointmentContext.Doctors on u.UserID equals d.UserID
                                               join s in _medicalAppointmentContext.Specialties on d.SpecialtyID equals s.SpecialtyID
-                                              where d.IsActive == true && r.RoleID == 2
+                                              where d.IsActive 
                                               select new DoctorsModel
-                                              {   RoleName = r.RoleName,
+                                              {
+                                                  RoleName = r.RoleName,
                                                   DoctorID = d.DoctorID,
                                                   FirstName = u.FirstName,
                                                   LastName = u.LastName,
                                                   ConsultationFee = d.ConsultationFee,
                                                   SpecialtyName = s.SpecialtyName,
                                                   IsActive = d.IsActive
-                                              }).ToListAsync(); ;
-
-
-                operationResult.success = true;
+                                              }). ToListAsync();
+                if (operationResult.Data == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró registro de doctores.";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
             }
             catch (Exception ex)
             {
@@ -278,11 +267,11 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             try
             {
 
-                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                operationResult.Data = await (from d in _medicalAppointmentContext.Doctors
+                                              join u in _medicalAppointmentContext.Users on d.DoctorID equals u.UserID
                                               join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
-                                              join d in _medicalAppointmentContext.Doctors on u.UserID equals d.UserID
                                               join s in _medicalAppointmentContext.Specialties on d.SpecialtyID equals s.SpecialtyID
-                                              where d.IsActive && r.RoleID == 2 && d.DoctorID == id
+                                              where d.IsActive && d.DoctorID == id
                                               select new DoctorsModel
                                               {
                                                   RoleName = r.RoleName,

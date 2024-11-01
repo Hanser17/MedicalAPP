@@ -116,7 +116,7 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
                 operationResult.message = "AcceptedRegions de seguro no puede ser mayor a 255 caracteres  ";
                 return operationResult;
             }
-            if(entity.MaxCoverageAmount.HasValue && entity.MaxCoverageAmount.Value > 0)
+            if(entity.MaxCoverageAmount <= 0)
             {
                 operationResult.success = false;
                 operationResult.message = "MaxCoverageAmount del seguro debe ser mayor a 0 ";
@@ -320,7 +320,7 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
             OperationResult operationResult = new OperationResult();
 
             try
-            {
+             {
 
                 var insuranceProvider = await _medicalAppointmentContext.InsuranceProviders.ToListAsync();
                 operationResult.success = true;

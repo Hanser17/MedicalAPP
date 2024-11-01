@@ -263,7 +263,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
-                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+               /* operationResult.Data = await (from u in _medicalAppointmentContext.Users
                                               join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
                                               join p in _medicalAppointmentContext.Patients on u.UserID equals p.UserID
                                               join i in _medicalAppointmentContext.InsuranceProviders on p.InsuranceProviderID equals i.InsuranceProviderID
@@ -277,7 +277,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                 DateOfBirth = p.DateOfBirth,
                                                 IsActive = p.IsActive,
                                                 InsuranceName = i.Name
-                                            }).ToListAsync(); 
+                                            }).ToListAsync();  */
 
 
                     operationResult.success = true;
@@ -307,9 +307,9 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
-                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+               /* operationResult.Data = await (from u in _medicalAppointmentContext.Users
                                               join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
-                                              join p in _medicalAppointmentContext.Patients on u.UserID equals p.UserID
+                                              
                                               join i in _medicalAppointmentContext.InsuranceProviders on p.InsuranceProviderID equals i.InsuranceProviderID
                                               where r.RoleID == 3 && p.IsActive == true && p.PatientID == id
                                               select new PatientsModel
@@ -321,7 +321,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   DateOfBirth = p.DateOfBirth,
                                                   IsActive = p.IsActive,
                                                   InsuranceName = i.Name
-                                              }).ToListAsync();
+                                              }).ToListAsync();  */
 
 
                 operationResult.success = true;
