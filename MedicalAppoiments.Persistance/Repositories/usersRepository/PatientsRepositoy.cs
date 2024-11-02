@@ -263,11 +263,11 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
-               /* operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                operationResult.Data = await (from p in _medicalAppointmentContext.Patients
+                                              join u in _medicalAppointmentContext.Users on p.PatientID equals u.UserID
                                               join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
-                                              join p in _medicalAppointmentContext.Patients on u.UserID equals p.UserID
                                               join i in _medicalAppointmentContext.InsuranceProviders on p.InsuranceProviderID equals i.InsuranceProviderID
-                                              where r.RoleID == 3 && p.IsActive == true
+                                              where p.IsActive == true
                                               select new PatientsModel
                                               {
                                                 RoleName = r.RoleName,
@@ -277,11 +277,19 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                 DateOfBirth = p.DateOfBirth,
                                                 IsActive = p.IsActive,
                                                 InsuranceName = i.Name
-                                            }).ToListAsync();  */
+                                            }).ToListAsync();
 
-
+                if (operationResult.Data == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontraron pacientes .";
+                    return operationResult;
+                }
+                else
+                {
                     operationResult.success = true;
-    
+                }
+
             }
             catch (Exception ex)
             {
@@ -307,11 +315,11 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
-               /* operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                operationResult.Data = await (from p in _medicalAppointmentContext.Patients
+                                              join u in _medicalAppointmentContext.Users on p.PatientID equals u.UserID
                                               join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
-                                              
                                               join i in _medicalAppointmentContext.InsuranceProviders on p.InsuranceProviderID equals i.InsuranceProviderID
-                                              where r.RoleID == 3 && p.IsActive == true && p.PatientID == id
+                                              where p.IsActive == true && p.PatientID == id
                                               select new PatientsModel
                                               {
                                                   RoleName = r.RoleName,
@@ -321,14 +329,22 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   DateOfBirth = p.DateOfBirth,
                                                   IsActive = p.IsActive,
                                                   InsuranceName = i.Name
-                                              }).ToListAsync();  */
+                                              }).FirstOrDefaultAsync();
 
-
-                operationResult.success = true;
-                
-               
+           
+            if (operationResult.Data == null)
+            {
+                operationResult.success = false;
+                operationResult.message = "No se encontró un paciente con el ID proporcionado.";
+                return operationResult;
             }
-            catch (Exception ex)
+            else
+            {
+                operationResult.success = true;
+            }
+
+
+             }catch (Exception ex)
             {
                 operationResult.success = false;
                 operationResult.message = "Error al obtener el patient.";

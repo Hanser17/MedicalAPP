@@ -31,7 +31,7 @@ namespace MedicalAppointment.Application.Service.users.service
 
         public async Task<OperationResult> RemoveUser(int userId)
         {
-            var user = new Users { UserID = userId }; // Assuming UserID is the only needed info to remove
+            var user = new Users { UserID = userId }; 
             return await _usersRepository.Remove(user);
         }
 

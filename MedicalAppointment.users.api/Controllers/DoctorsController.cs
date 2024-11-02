@@ -30,9 +30,31 @@ namespace MedicalAppointment.users.api.Controllers
         }
 
         [HttpGet("GetByDoctorID")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetDoctorById(int id)
         {
             var result = await _doctorService.GetDoctorByIdAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
+        }
+
+        [HttpGet("GetDoctorByAvailability")]
+        public async Task<IActionResult> GetDoctorByAvailability(int id)
+        {
+            var result = await _doctorService.GetDoctorByAvailabilityAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
+        }
+
+        [HttpGet("GetDoctorBySpecialty")]
+        public async Task<IActionResult> GetDoctorBySpecialty(int id)
+        {
+            var result = await _doctorService.GetDoctorBySpecialtyAsync(id);
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -73,9 +95,9 @@ namespace MedicalAppointment.users.api.Controllers
         }
 
         [HttpDelete("RemoveDoctor")]
-        public async Task<IActionResult> Deleted([FromBody] Doctors doctor)
+        public async Task<IActionResult> Deleted(int id)
         {
-            var result = await _doctorService.RemoveDoctorAsync(doctor);
+            var result = await _doctorService.RemoveDoctorAsync(id);
             if (!result.success)
             {
                 return BadRequest(result);

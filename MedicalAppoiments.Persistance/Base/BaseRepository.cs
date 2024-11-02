@@ -87,7 +87,7 @@ namespace MedicalAppoiments.Persistance.Base
 
             try
             {
-                _entities.Remove(entity);
+                _entities.Update(entity);
                 await _medicalAppointmentContext.SaveChangesAsync();
             }
             catch (Exception ex)

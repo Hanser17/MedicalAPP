@@ -199,6 +199,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                 DoctortoRemove.IsActive = false;
                 DoctortoRemove.UpdatedAt = DateTime.Now;
 
+                operationResult = await base.Remove(DoctortoRemove);
             }
             catch (Exception ex)
             {
@@ -281,7 +282,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   ConsultationFee = d.ConsultationFee,
                                                   SpecialtyName = s.SpecialtyName,
                                                   IsActive = d.IsActive
-                                              }).FirstOrDefaultAsync();;
+                                              }).FirstOrDefaultAsync();
                 if (operationResult.Data == null)
                 {
                     operationResult.success = false;
@@ -303,5 +304,106 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             return operationResult;
         }
 
+        public async Task <OperationResult> GetDoctorBySpecialty(int id)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "Se requiere un ID válido para realizar esta operación.";
+                return operationResult;
+            }
+            try
+            {
+                operationResult.Data = await (from d in _medicalAppointmentContext.Doctors
+                                              join u in _medicalAppointmentContext.Users on d.DoctorID equals u.UserID
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
+                                              join s in _medicalAppointmentContext.Specialties on d.SpecialtyID equals s.SpecialtyID
+                                              where d.IsActive && s.SpecialtyID == id
+                                              select new DoctorsModel
+                                              {
+                                                  RoleName = r.RoleName,
+                                                  DoctorID = d.DoctorID,
+                                                  FirstName = u.FirstName,
+                                                  LastName = u.LastName,
+                                                  ConsultationFee = d.ConsultationFee,
+                                                  SpecialtyName = s.SpecialtyName,
+                                                  IsActive = d.IsActive
+                                              }).FirstOrDefaultAsync();
+                if (operationResult.Data == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró un doctor con el ID proporcionado.";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
+
+
+            }
+            catch (Exception ex) 
+            {
+                operationResult.success = false;
+                operationResult.message = "Error al obtener el doctor.";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
+
+
+        public async Task<OperationResult> GetDoctorByAvailability(int id)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "Se requiere un ID válido para realizar esta operación.";
+                return operationResult;
+            }
+            try
+            {
+                operationResult.Data = await (from d in _medicalAppointmentContext.Doctors
+                                              join u in _medicalAppointmentContext.Users on d.DoctorID equals u.UserID
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
+                                              join s in _medicalAppointmentContext.Specialties on d.SpecialtyID equals s.SpecialtyID
+                                              join a in _medicalAppointmentContext.AvailabilityModes on d.AvailabilityModeId equals a.SAvailabilityModeID
+                                              where d.IsActive && d.AvailabilityModeId == id
+                                              select new DoctorsModel
+                                              {
+                                                  RoleName = r.RoleName,
+                                                  DoctorID = d.DoctorID,
+                                                  FirstName = u.FirstName,
+                                                  LastName = u.LastName,
+                                                  ConsultationFee = d.ConsultationFee,
+                                                  SpecialtyName = s.SpecialtyName,
+                                                  IsActive = d.IsActive
+                                              }).FirstOrDefaultAsync();
+                if (operationResult.Data == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró un doctor con el ID proporcionado.";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error al obtener el doctor.";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
     }
 }

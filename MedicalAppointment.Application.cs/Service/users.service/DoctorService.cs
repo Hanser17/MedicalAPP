@@ -4,6 +4,7 @@ using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
 using MedicalAppointment.Application.Interfaces.Iusersservice;
 using Microsoft.Extensions.Logging;
+using System.Numerics;
 
 namespace MedicalAppointment.Application.Service.users.service
 {
@@ -38,9 +39,20 @@ namespace MedicalAppointment.Application.Service.users.service
             return await _doctorRepository.Update(doctor);
         }
 
-        public async Task<OperationResult> RemoveDoctorAsync(Doctors doctor)
+        public async Task<OperationResult> RemoveDoctorAsync(int DoctorID)
         {
+            var doctor = new Doctors { DoctorID = DoctorID };
             return await _doctorRepository.Remove(doctor);
+        }
+
+        public  async Task<OperationResult> GetDoctorByAvailabilityAsync(int id)
+        {
+            return await _doctorRepository.GetDoctorByAvailability(id);
+        }
+
+        public  async Task<OperationResult> GetDoctorBySpecialtyAsync(int id)
+        {
+            return await _doctorRepository.GetDoctorBySpecialty( id);
         }
     }
 }
