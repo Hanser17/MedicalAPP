@@ -10,8 +10,11 @@ namespace MedicalAppointment.Application.Interfaces.IappointmentsService
     {
         Task<OperationResult> GetAllAppointmentsAsync();
         Task<OperationResult> GetAppointmentsByIdAsync(int id);
+        Task<OperationResult> GetAppointmentsByPatientIDAsync(int id);
+        Task<OperationResult> GetAppointmentsByDoctorIDAsync(int id);
+        Task<OperationResult> GetAppointmentsByStatusIDAsync(int id);
         Task<OperationResult> SaveAppointmentsAsync(Appointments appointments);
         Task<OperationResult> UpdateAppointmentsAsync(Appointments appointments);
-        Task<OperationResult> RemoveAppointmentsAsync(Appointments appointments);
+        Task<OperationResult> RemoveAppointmentsAsync(int AppointmentID);
     }
 }

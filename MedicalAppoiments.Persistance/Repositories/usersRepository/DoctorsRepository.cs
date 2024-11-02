@@ -330,7 +330,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   ConsultationFee = d.ConsultationFee,
                                                   SpecialtyName = s.SpecialtyName,
                                                   IsActive = d.IsActive
-                                              }).FirstOrDefaultAsync();
+                                              }).ToListAsync();
                 if (operationResult.Data == null)
                 {
                     operationResult.success = false;
@@ -382,7 +382,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   ConsultationFee = d.ConsultationFee,
                                                   SpecialtyName = s.SpecialtyName,
                                                   IsActive = d.IsActive
-                                              }).FirstOrDefaultAsync();
+                                              }).ToListAsync();
                 if (operationResult.Data == null)
                 {
                     operationResult.success = false;

@@ -27,14 +27,30 @@ namespace MedicalAppointment.Application.Service.appointments.Service
             return await _appointmentsRepository.GetAll();
         }
 
+        public async Task<OperationResult> GetAppointmentsByDoctorIDAsync(int id)
+        {
+            return await _appointmentsRepository.GetAppointmentsByDoctorID(id);
+        }
+
         public async Task<OperationResult> GetAppointmentsByIdAsync(int id)
         {
             return await _appointmentsRepository.GetEntityBy(id);
         }
 
-        public async Task<OperationResult> RemoveAppointmentsAsync(Appointments appointments)
+        public async Task<OperationResult> GetAppointmentsByPatientIDAsync(int id)
         {
-            return await _appointmentsRepository.Remove(appointments);
+            return await _appointmentsRepository.GetAppointmentsByPatientID(id);
+        }
+
+        public async Task<OperationResult> GetAppointmentsByStatusIDAsync(int id)
+        {
+            return await _appointmentsRepository.GetAppointmentsByStatusID(id);
+        }
+
+        public async Task<OperationResult> RemoveAppointmentsAsync(int AppointmenrID)
+        {
+            var appointment = new Appointments { AppointmentID = AppointmenrID };
+            return await _appointmentsRepository.Remove(appointment);
         }
 
         public async Task<OperationResult> SaveAppointmentsAsync(Appointments appointments)

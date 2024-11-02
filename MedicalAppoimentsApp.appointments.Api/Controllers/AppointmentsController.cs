@@ -31,7 +31,7 @@ namespace MedicalAppoimentsApp.appointments.Api.Controllers
             {
                 return BadRequest(result);
             }
-            return Ok(result);
+            return Ok(result.Data);
         }
 
         // GET api/<Appointments>/5
@@ -39,6 +39,39 @@ namespace MedicalAppoimentsApp.appointments.Api.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var result = await _appointmentsService.GetAppointmentsByIdAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
+        }
+        // GET api/<Appointments>/5
+        [HttpGet("GetAppointmentsByPatientID")]
+        public async Task<IActionResult> GetAppointmentsByPatientID(int id)
+        {
+            var result = await _appointmentsService.GetAppointmentsByPatientIDAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
+        }
+        // GET api/<Appointments>/5
+        [HttpGet("GetAppointmentsByDoctorID")]
+        public async Task<IActionResult> GetAppointmentsByDoctorID(int id)
+        {
+            var result = await _appointmentsService.GetAppointmentsByDoctorIDAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
+        }
+        // GET api/<Appointments>/5
+        [HttpGet("GetAppointmentsByStatusID")]
+        public async Task<IActionResult> GetAppointmentsByStatusID(int id)
+        {
+            var result = await _appointmentsService.GetAppointmentsByStatusIDAsync(id);
             if (!result.success)
             {
                 return BadRequest(result.message);
@@ -84,9 +117,9 @@ namespace MedicalAppoimentsApp.appointments.Api.Controllers
 
         // DELETE api/<Appointments>/5
         [HttpDelete("RemoveAppointments")]
-        public async Task<IActionResult> Deleted([FromBody] Appointments appointments)
+        public async Task<IActionResult> Deleted(int id)
         {
-            var result = await _appointmentsService.RemoveAppointmentsAsync(appointments);
+            var result = await _appointmentsService.RemoveAppointmentsAsync(id);
             if (!result.success)
             {
                 return BadRequest(result);

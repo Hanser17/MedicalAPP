@@ -380,7 +380,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   DateOfBirth = p.DateOfBirth,
                                                   IsActive = p.IsActive,
                                                   InsuranceName = i.Name
-                                              }).FirstOrDefaultAsync();
+                                              }).ToListAsync();
 
 
                 if (operationResult.Data == null)

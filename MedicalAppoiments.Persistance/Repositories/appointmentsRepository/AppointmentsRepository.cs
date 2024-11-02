@@ -1,9 +1,11 @@
 ﻿using MedicalAppoiments.Domain.Entities.appointments;
+using MedicalAppoiments.Domain.Entities.system;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iappointments;
+using MedicalAppoiments.Persistance.Models.appointments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Numerics;
@@ -34,10 +36,25 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                 return operationResult;
             }
 
+            Patients patientExists = await _medicalAppointmentContext.Patients.FindAsync(entity.PatientID);
+            if (patientExists == null)
+            {
+                operationResult.success = false;
+                operationResult.message = "el paciente no existe ";
+                return operationResult;
+            }
+
             if (entity.DoctorID <= 0)
             {
                 operationResult.success = false;
                 operationResult.message = "El ID del Doctor no puede ser nulo ni menor o igual a cero.";
+                return operationResult;
+            }
+            Doctors doctorsExist = await _medicalAppointmentContext.Doctors.FindAsync(entity.DoctorID);
+            if (doctorsExist == null)
+            {
+                operationResult.success = false;
+                operationResult.message = "el doctor no existe ";
                 return operationResult;
             }
 
@@ -54,6 +71,14 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                 operationResult.message = "El ID del Status no puede ser nulo ni menor o igual a cero.";
                 return operationResult;
             }
+            Status statusExist = await _medicalAppointmentContext.Status.FindAsync(entity.StatusID);
+            if (doctorsExist == null)
+            {
+                operationResult.success = false;
+                operationResult.message = "el estado no existe ";
+                return operationResult;
+            }
+
 
             if (await base.Exists(appointment => appointment.AppointmentID == entity.AppointmentID
                                                   && appointment.AppointmentDate == entity.AppointmentDate))
@@ -93,11 +118,25 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                 operationResult.message = "El ID del paciente no puede ser nulo ni menor o igual a cero.";
                 return operationResult;
             }
+            Patients patientExists = await _medicalAppointmentContext.Patients.FindAsync(entity.PatientID);
+            if (patientExists == null)
+            {
+                operationResult.success = false;
+                operationResult.message = "el paciente no existe ";
+                return operationResult;
+            }
 
             if (entity.DoctorID <= 0)
             {
                 operationResult.success = false;
                 operationResult.message = "El ID del Doctor no puede ser nulo ni menor o igual a cero.";
+                return operationResult;
+            }
+            Doctors doctorsExist = await _medicalAppointmentContext.Doctors.FindAsync(entity.DoctorID);
+            if (doctorsExist == null)
+            {
+                operationResult.success = false;
+                operationResult.message = "el doctor no existe ";
                 return operationResult;
             }
 
@@ -119,19 +158,19 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
             {
                 Appointments appointmenttoUpdate = await _medicalAppointmentContext.Appointments.FindAsync(entity.AppointmentID);
 
-                
+
                 if (appointmenttoUpdate == null)
                 {
                     operationResult.success = false;
                     operationResult.message = "La cita no existe, no se puede actualizar.";
-                    return operationResult; // Salir si no existe
+                    return operationResult;
                 }
 
-                    appointmenttoUpdate.PatientID = entity.PatientID;
-                    appointmenttoUpdate.DoctorID = entity.DoctorID;
-                    appointmenttoUpdate.AppointmentDate = entity.AppointmentDate;
-                    appointmenttoUpdate.StatusID = entity.StatusID;
-                    appointmenttoUpdate.UpdatedAt = entity.UpdatedAt;
+                appointmenttoUpdate.PatientID = entity.PatientID;
+                appointmenttoUpdate.DoctorID = entity.DoctorID;
+                appointmenttoUpdate.AppointmentDate = entity.AppointmentDate;
+                appointmenttoUpdate.StatusID = entity.StatusID;
+                appointmenttoUpdate.UpdatedAt = entity.UpdatedAt;
 
                 operationResult = await base.Update(appointmenttoUpdate);
 
@@ -166,9 +205,9 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
             try
             {
                 Appointments appointmentToRemove = await _medicalAppointmentContext.Appointments.FindAsync(entity.AppointmentID);
-                appointmentToRemove.StatusID = entity.StatusID;
-                appointmentToRemove.UpdatedAt = entity.UpdatedAt;
-                
+                appointmentToRemove.StatusID = 2 ;
+                appointmentToRemove.UpdatedAt = DateTime.Now;
+
 
                 await base.Update(appointmentToRemove);
 
@@ -189,56 +228,49 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
 
             try
             {
-                var citas = await (from appointments in _medicalAppointmentContext.Appointments
-                                   join doctors in _medicalAppointmentContext.Doctors on appointments.DoctorID equals doctors.DoctorID
-                                   join specialty in _medicalAppointmentContext.Specialties on doctors.SpecialtyID equals specialty.SpecialtyID
-                                   join status in _medicalAppointmentContext.Status on appointments.StatusID equals status.StatusID
-                                   where appointments.CreatedAt != null
-                                   select new
-                                   {
-                                       AppointmentID = appointments.AppointmentID,
-                                      // DoctorFirstName = doctors.FirstName,
-                                     //  DoctorLastname = doctors.LastName,
-                                       Specialty = specialty.SpecialtyName,
-                                       StatusName = status.StatusName,
-                                       CreatedAt = appointments.CreatedAt
-                                   }).ToListAsync();
-                var usuariosConRoles = await (from user in _medicalAppointmentContext.Users
-                                              join role in _medicalAppointmentContext.Roles on user.RoleID equals role.RoleID
-                                              where role.RoleName == "Doctor" || role.RoleName == "Patient"
-                                              select new
+
+                operationResult.Data = await (from a in _medicalAppointmentContext.Appointments
+                                              join d in _medicalAppointmentContext.Doctors on a.DoctorID equals d.DoctorID
+                                              join ud in _medicalAppointmentContext.Users on d.DoctorID equals ud.UserID
+                                              join p in _medicalAppointmentContext.Patients on a.PatientID equals p.PatientID
+                                              join up in _medicalAppointmentContext.Users on p.PatientID equals up.UserID
+                                              join s in _medicalAppointmentContext.Status on a.StatusID equals s.StatusID
+                                             
+                                              select new AppointmentsModel
+
                                               {
-                                                  UserID = user.UserID,
-                                                  FirstName = user.FirstName,
-                                                  LastName = user.LastName,
-                                                  Role = role.RoleName
+                                                  AppointmentID = a.AppointmentID,
+                                                  DoctorID = d.DoctorID,
+                                                  DoctorFirstName = ud.FirstName,
+                                                  DoctorLastName = ud.LastName,
+                                                  PatientID = p.PatientID,
+                                                  PatientFirstName = up.FirstName,
+                                                  PatientLastName = up.LastName,
+                                                  StatusName = s.StatusName,
+                                                  AppointmentDate = a.AppointmentDate,
+                                                  CreatedAt = a.CreatedAt,
+                                                  UpdatedAt = a.UpdatedAt
                                               }).ToListAsync();
-
-                operationResult.Data = new
+                if (operationResult.Data == null)
                 {
-                    Citas = citas,
-                    UsuariosConRoles = usuariosConRoles
-                };
-
-
-
-
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró registro de citas ";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
             }
-
-            /* var appointment = await _medicalAppointmentContext.Appointments.ToListAsync();
-            //operationResult.success = true;
-             operationResult.Data = appointment; */
-
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error opteniendo todos las citas";
+                operationResult.message = "Error opteniendo todos la citas";
                 _logger.LogError(operationResult.message, ex);
             }
-
             return operationResult;
 
-        }
+        } 
 
         public async override Task<OperationResult> GetEntityBy(int id)
         {
@@ -253,16 +285,39 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
 
             try
             {
-                var appointment = await _medicalAppointmentContext.Appointments.FindAsync(id);
-                if (appointment == null)
+              
+                operationResult.Data = await (from a in _medicalAppointmentContext.Appointments
+                                        join d in _medicalAppointmentContext.Doctors on a.DoctorID equals d.DoctorID
+                                        join ud in _medicalAppointmentContext.Users on d.DoctorID equals ud.UserID
+                                        join p in _medicalAppointmentContext.Patients on a.PatientID equals p.PatientID
+                                        join up in _medicalAppointmentContext.Users on p.PatientID equals up.UserID
+                                        join s in _medicalAppointmentContext.Status on a.StatusID equals s.StatusID
+                                        where a.AppointmentID == id
+                                        select new AppointmentsModel
+
+                                        {
+                                            AppointmentID = a.AppointmentID,
+                                            DoctorID = d.DoctorID,
+                                            DoctorFirstName = ud.FirstName,
+                                            DoctorLastName = ud.LastName,
+                                            PatientID = p.PatientID,
+                                            PatientFirstName = up.FirstName,
+                                            PatientLastName = up.LastName,
+                                            StatusName = s.StatusName,
+                                            AppointmentDate = a.AppointmentDate,
+                                            CreatedAt = a.CreatedAt,
+                                            UpdatedAt = a.UpdatedAt
+                                        }).FirstOrDefaultAsync();
+                if (operationResult.Data == null)
                 {
                     operationResult.success = false;
-                    operationResult.message = "La cita no existe.";
+                    operationResult.message = "No se encontró registro de cita con el ID proporcionado.";
                     return operationResult;
                 }
-
-                operationResult.success = true;
-                operationResult.Data = appointment;
+                else
+                {
+                    operationResult.success = true;
+                }
             }
             catch (Exception ex)
             {
@@ -274,6 +329,176 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
             return operationResult;
         }
 
+        public async Task<OperationResult> GetAppointmentsByPatientID(int id)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "Se requiere un ID válido para realizar esta operación.";
+                return operationResult;
+            }
+
+            try
+            {
+               
+                operationResult.Data = await  (from a in _medicalAppointmentContext.Appointments
+                                        join d in _medicalAppointmentContext.Doctors on a.DoctorID equals d.DoctorID
+                                        join ud in _medicalAppointmentContext.Users on d.DoctorID equals ud.UserID
+                                        join p in _medicalAppointmentContext.Patients on a.PatientID equals p.PatientID
+                                        join up in _medicalAppointmentContext.Users on p.PatientID equals up.UserID
+                                        join s in _medicalAppointmentContext.Status on a.StatusID equals s.StatusID
+                                        where a.PatientID == id
+                                        select new AppointmentsModel
+
+                                        {
+                                            AppointmentID = a.AppointmentID,
+                                            DoctorID = d.DoctorID,
+                                            DoctorFirstName = ud.FirstName,
+                                            DoctorLastName = ud.LastName,
+                                            PatientID = p.PatientID,
+                                            PatientFirstName = up.FirstName,
+                                            PatientLastName = up.LastName,
+                                            StatusName = s.StatusName,
+                                            AppointmentDate = a.AppointmentDate,
+                                            CreatedAt = a.CreatedAt,
+                                            UpdatedAt = a.UpdatedAt
+                                        }).ToListAsync();
+                if (operationResult.Data == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró registro de cita con el ID proporcionado.";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error opteniendo todos la citas";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
+
+        public async Task<OperationResult> GetAppointmentsByDoctorID(int id)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "Se requiere un ID válido para realizar esta operación.";
+                return operationResult;
+            }
+
+            try
+            {
+                
+                operationResult.Data  = await (from a in _medicalAppointmentContext.Appointments
+                                        join d in _medicalAppointmentContext.Doctors on a.DoctorID equals d.DoctorID
+                                        join ud in _medicalAppointmentContext.Users on d.DoctorID equals ud.UserID
+                                        join p in _medicalAppointmentContext.Patients on a.PatientID equals p.PatientID
+                                        join up in _medicalAppointmentContext.Users on p.PatientID equals up.UserID
+                                        join s in _medicalAppointmentContext.Status on a.StatusID equals s.StatusID
+                                        where a.DoctorID == id
+                                        select new AppointmentsModel
+
+                                        {
+                                            AppointmentID = a.AppointmentID,
+                                            DoctorID = d.DoctorID,
+                                            DoctorFirstName = ud.FirstName,
+                                            DoctorLastName = ud.LastName,
+                                            PatientID = p.PatientID,
+                                            PatientFirstName = up.FirstName,
+                                            PatientLastName = up.LastName,
+                                            StatusName = s.StatusName,
+                                            AppointmentDate = a.AppointmentDate,
+                                            CreatedAt = a.CreatedAt,
+                                            UpdatedAt = a.UpdatedAt
+                                        }).ToListAsync();
+                if (operationResult.Data == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró registro de cita con el ID proporcionado.";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error opteniendo todos la citas";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
+
+        public async Task<OperationResult> GetAppointmentsByStatusID(int id)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "Se requiere un ID válido para realizar esta operación.";
+                return operationResult;
+            }
+
+            try
+            {
+               
+                operationResult.Data = await (from a in _medicalAppointmentContext.Appointments
+                                        join d in _medicalAppointmentContext.Doctors on a.DoctorID equals d.DoctorID
+                                        join ud in _medicalAppointmentContext.Users on d.DoctorID equals ud.UserID
+                                        join p in _medicalAppointmentContext.Patients on a.PatientID equals p.PatientID
+                                        join up in _medicalAppointmentContext.Users on p.PatientID equals up.UserID
+                                        join s in _medicalAppointmentContext.Status on a.StatusID equals s.StatusID
+                                        where a.StatusID == id
+                                        select new AppointmentsModel
+
+                                        {
+                                            AppointmentID = a.AppointmentID,
+                                            DoctorID = d.DoctorID,
+                                            DoctorFirstName = ud.FirstName,
+                                            DoctorLastName = ud.LastName,
+                                            PatientID = p.PatientID,
+                                            PatientFirstName = up.FirstName,
+                                            PatientLastName = up.LastName,
+                                            StatusName = s.StatusName,
+                                            AppointmentDate = a.AppointmentDate,
+                                            CreatedAt = a.CreatedAt,
+                                            UpdatedAt = a.UpdatedAt
+                                        }).ToListAsync();
+                if (operationResult.Data == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró registro de cita con el ID proporcionado.";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error opteniendo todos la citas";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
     }
 }
 
