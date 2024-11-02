@@ -41,6 +41,17 @@ namespace MedicalAppointment.users.api.Controllers
             return Ok(result.Data);
         }
 
+        [HttpGet("GetPatientsByInsuranceProvider")]
+        public async Task<IActionResult> GetPatientsByInsuranceProvider(int id)
+        {
+            var result = await _patientService.GetPatientsByInsuranceProviderAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
+        }
+
         [HttpPost("SavePatient")]
         public async Task<IActionResult> Save([FromBody] Patients entity)
         {
@@ -67,9 +78,9 @@ namespace MedicalAppointment.users.api.Controllers
         }
 
         [HttpDelete("RemovePatient")]
-        public async Task<IActionResult> Deleted([FromBody] Patients patients)
+        public async Task<IActionResult> Deleted(int PatientID)
         {
-            var result = await _patientService.RemovePatientAsync(patients);
+            var result = await _patientService.RemovePatientAsync(PatientID);
             if (!result.success)
             {
                 return BadRequest(result);

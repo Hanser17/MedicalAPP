@@ -354,6 +354,57 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             return operationResult;
         }
 
+        public async Task<OperationResult> GetPatientsByInsuranceProvider(int id)
+        { 
+            OperationResult operationResult = new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "Se requiere un ID válido para realizar esta operación.";
+                return operationResult;
+            }
+           
+            try{
+                operationResult.Data = await (from p in _medicalAppointmentContext.Patients
+                                              join u in _medicalAppointmentContext.Users on p.PatientID equals u.UserID
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
+                                              join i in _medicalAppointmentContext.InsuranceProviders on p.InsuranceProviderID equals i.InsuranceProviderID
+                                              where p.IsActive == true && i.InsuranceProviderID == id
+                                              select new PatientsModel
+                                              {
+                                                  RoleName = r.RoleName,
+                                                  PatientID = p.PatientID,
+                                                  FirstName = u.FirstName,
+                                                  LastName = u.LastName,
+                                                  DateOfBirth = p.DateOfBirth,
+                                                  IsActive = p.IsActive,
+                                                  InsuranceName = i.Name
+                                              }).FirstOrDefaultAsync();
+
+
+                if (operationResult.Data == null)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró un paciente con el ID proporcionado.";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
+
+
+            }catch (Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error al obtener el patient.";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
+
     }
 
 }

@@ -28,6 +28,11 @@ namespace MedicalAppointment.Application.Service.users.service
             return await _patientsRepository.GetEntityBy(id);
         }
 
+        public async Task<OperationResult> GetPatientsByInsuranceProviderAsync(int id)
+        {
+            return await _patientsRepository.GetPatientsByInsuranceProvider(id);
+        }
+
         public async Task<OperationResult> SavePatientAsync(Patients patient)
         {
             return await _patientsRepository.Save(patient);
@@ -37,8 +42,9 @@ namespace MedicalAppointment.Application.Service.users.service
         {
             return await _patientsRepository.Update(patient);
         }
-        public async Task<OperationResult> RemovePatientAsync(Patients patient)
+        public async Task<OperationResult> RemovePatientAsync(int PatientID)
         {
+            var patient = new Patients { PatientID = PatientID };
             return await _patientsRepository.Remove(patient);
         }
     }
