@@ -251,7 +251,7 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                                                   CreatedAt = a.CreatedAt,
                                                   UpdatedAt = a.UpdatedAt
                                               }).ToListAsync();
-                if (operationResult.Data == null)
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró registro de citas ";
@@ -365,7 +365,7 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                                             CreatedAt = a.CreatedAt,
                                             UpdatedAt = a.UpdatedAt
                                         }).ToListAsync();
-                if (operationResult.Data == null)
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró registro de cita con el ID proporcionado.";
@@ -422,7 +422,7 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                                             CreatedAt = a.CreatedAt,
                                             UpdatedAt = a.UpdatedAt
                                         }).ToListAsync();
-                if (operationResult.Data == null)
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró registro de cita con el ID proporcionado.";
@@ -479,7 +479,7 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                                             CreatedAt = a.CreatedAt,
                                             UpdatedAt = a.UpdatedAt
                                         }).ToListAsync();
-                if (operationResult.Data == null)
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró registro de cita con el ID proporcionado.";

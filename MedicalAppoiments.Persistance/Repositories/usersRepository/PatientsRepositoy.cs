@@ -4,6 +4,7 @@ using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
+using MedicalAppoiments.Persistance.Models.appointments;
 using MedicalAppoiments.Persistance.Models.usersModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -279,7 +280,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                 InsuranceName = i.Name
                                             }).ToListAsync();
 
-                if (operationResult.Data == null)
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontraron pacientes .";
@@ -383,7 +384,8 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                               }).ToListAsync();
 
 
-                if (operationResult.Data == null)
+
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró un paciente con el ID proporcionado.";

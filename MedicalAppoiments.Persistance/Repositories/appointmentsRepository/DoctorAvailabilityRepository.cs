@@ -192,5 +192,51 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
             return operationResult;
         }
 
+       public async Task<OperationResult> DoctorAvailabilityByDoctorID(int id)
+        {
+
+            OperationResult operationResult = new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success= false;
+                operationResult.message = "El ID proporcionado no es Valido";
+                return operationResult;
+            }
+            try
+            {
+                operationResult.Data = await (from Da in _medicalAppointmentContext.DoctorAvailability
+                                              join d in _medicalAppointmentContext.Doctors on Da.DoctorID equals d.DoctorID
+                                              where d.DoctorID == id
+                                              select new DoctorAvailability
+                                              {
+                                                  AvailabilityID = Da.AvailabilityID,
+                                                  DoctorID = d.DoctorID,
+                                                  AvailableDate = Da.AvailableDate,
+                                                  StartTime = Da.StartTime,
+                                                  EndTime = Da.EndTime,
+                                              }).ToListAsync();
+
+                if (operationResult.Data.Count == 0)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró registro ";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
+
+            }
+            catch(Exception ex) 
+            {
+                operationResult.success = false;
+                operationResult.message = "Error opteniendo todos la Disponibilidad del doctor.";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
     }
 }

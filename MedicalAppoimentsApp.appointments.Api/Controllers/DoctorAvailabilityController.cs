@@ -45,6 +45,18 @@ namespace MedicalAppoimentsApp.appointments.Api.Controllers
             return Ok(result.Data);
         }
 
+        [HttpGet(" DoctorAvailabilityByDoctorID")]
+        public async Task<IActionResult> DoctorAvailabilityByDoctorID(int id)
+        {
+            var result = await _doctorAvailabilityService.DoctorAvailabilityByDoctorIDAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
+        }
+       
+
         // POST api/<DoctorAvailability>
         [HttpPost("SaveDoctor")]
         public async Task<IActionResult> Save([FromBody] DoctorAvailability entity)

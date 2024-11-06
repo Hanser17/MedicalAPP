@@ -46,5 +46,10 @@ namespace MedicalAppointment.Application.Service.appointments.Service
         {
             return await _doctorAvailabilityRepository.Update(doctorAvailability);
         }
+
+        public async Task<OperationResult> DoctorAvailabilityByDoctorIDAsync(int id)
+        {
+            return await _doctorAvailabilityRepository.DoctorAvailabilityByDoctorID(id);
+        }
     }
 }

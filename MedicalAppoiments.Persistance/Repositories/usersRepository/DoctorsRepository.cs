@@ -233,7 +233,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   SpecialtyName = s.SpecialtyName,
                                                   IsActive = d.IsActive
                                               }). ToListAsync();
-                if (operationResult.Data == null)
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró registro de doctores.";
@@ -331,7 +331,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   SpecialtyName = s.SpecialtyName,
                                                   IsActive = d.IsActive
                                               }).ToListAsync();
-                if (operationResult.Data == null)
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró un doctor con el ID proporcionado.";
@@ -383,7 +383,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   SpecialtyName = s.SpecialtyName,
                                                   IsActive = d.IsActive
                                               }).ToListAsync();
-                if (operationResult.Data == null)
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró un doctor con el ID proporcionado.";
