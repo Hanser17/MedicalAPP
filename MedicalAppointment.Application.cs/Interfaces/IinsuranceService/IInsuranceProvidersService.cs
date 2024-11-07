@@ -13,6 +13,8 @@ namespace MedicalAppointment.Application.Interfaces.IinsuranceService
         Task<OperationResult> GetAllInsuranceProvidersAsync();
         Task<OperationResult> GetByIDInsuranceProvidersAsync(int id);
 
+        Task<OperationResult> GetInsuranceProvidersByNetWorkAsync(int id);
+
         Task<OperationResult> SaveInsuranceProvidersAsync(InsuranceProviders insuranceProviders);
         Task<OperationResult> UpdateInsuranceProvidersAsync(InsuranceProviders insuranceProviders);
 

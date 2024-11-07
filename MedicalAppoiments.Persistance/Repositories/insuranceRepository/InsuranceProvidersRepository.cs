@@ -4,6 +4,7 @@ using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iinsurance;
+using MedicalAppoiments.Persistance.Models.insuranseModel;
 using MedicalAppoiments.Persistance.Repositories.usersRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -365,6 +366,54 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
             {
                 operationResult.success = false;
                 operationResult.message = "Error al obtener el doctor.";
+                _logger.LogError(operationResult.message, ex);
+            }
+
+            return operationResult;
+        }
+
+        public async Task<OperationResult> GetInsuranceProvidersByNetWork(int id)
+        {
+            OperationResult operationResult= new OperationResult();
+
+            if (id <= 0)
+            {
+                operationResult.success = false;
+                operationResult.message = "Se requiere un ID válido para realizar esta operación.";
+                return operationResult;
+            }
+
+            try
+            {
+                operationResult.Data = await (from i in _medicalAppointmentContext.InsuranceProviders
+                                              join n in _medicalAppointmentContext.NetworkType on i.NetworkTypeId equals n.NetworkTypeId
+                                              where i.IsActive && i.NetworkTypeId == id
+                                              select new InsuranceProvidersModel
+                                              {
+                                                  InsuranceProviderName = i.Name,
+                                                  InsuranceProviderID = i.InsuranceProviderID,
+                                                  InsuranceProviderType = n.Name,
+                                                  CoverageDetails = i.CoverageDetails,
+                                                  MaxCoverageAmount = i.MaxCoverageAmount,
+                                                  IsPreferred = i.IsPreferred,
+                                                  IsActive = i.IsActive
+                                              }).ToListAsync();
+
+                if (operationResult.Data.Count == 0)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró registro ";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
+            }
+            catch(Exception ex)
+            {
+                operationResult.success = false;
+                operationResult.message = "Error opteniendo todos la Disponibilidad del doctor.";
                 _logger.LogError(operationResult.message, ex);
             }
 

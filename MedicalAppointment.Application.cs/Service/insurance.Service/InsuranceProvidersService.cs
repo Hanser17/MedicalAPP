@@ -41,5 +41,10 @@ namespace MedicalAppointment.Application.Service.insurance.Service
         {
             return await _insuranceProvidersRepository.Update(insuranceProviders);
         }
+
+        public async Task<OperationResult> GetInsuranceProvidersByNetWorkAsync(int id)
+        {
+            return await _insuranceProvidersRepository.GetInsuranceProvidersByNetWork(id);
+        }
     }
 }

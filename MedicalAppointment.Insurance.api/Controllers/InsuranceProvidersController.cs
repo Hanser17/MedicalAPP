@@ -45,6 +45,17 @@ namespace MedicalAppointment.Insurance.api.Controllers
             return Ok(result.Data);
         }
 
+        // GET api/<InsuranceProvidersController>/5
+        [HttpGet("GeGetInsuranceProvidersByNetWorkt")]
+        public async Task<IActionResult> GeGetInsuranceProvidersByNetWorkt(int id)
+        {
+            var result = await _insuranceProvidersService.GetInsuranceProvidersByNetWorkAsync(id);
+            if (!result.success)
+            {
+                return BadRequest(result.message);
+            }
+            return Ok(result.Data);
+        }
         // POST api/<InsuranceProvidersController>
         [HttpPost("SaveInsuranceProviders")]
         public async Task<IActionResult> Save([FromBody] InsuranceProviders entity)
