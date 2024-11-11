@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalAppointment.medical.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalAppointment.Insurance.api", "MedicalAppointment.Insurance.api\MedicalAppointment.Insurance.api.csproj", "{A3FA045C-6512-4876-8A35-D18185CB34D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAppointment.Application", "MedicalAppointment.Application.cs\MedicalAppointment.Application.csproj", "{AABA0F3D-D9DA-4982-82E9-EEA2CF4F4677}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalAppointment.Application", "MedicalAppointment.Application.cs\MedicalAppointment.Application.csproj", "{AABA0F3D-D9DA-4982-82E9-EEA2CF4F4677}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalAppointmentWeb", "MedicalAppointmentWeb\MedicalAppointmentWeb.csproj", "{938DD4FF-8612-4485-B63B-3BF5FF2DE42A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{AABA0F3D-D9DA-4982-82E9-EEA2CF4F4677}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AABA0F3D-D9DA-4982-82E9-EEA2CF4F4677}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AABA0F3D-D9DA-4982-82E9-EEA2CF4F4677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{938DD4FF-8612-4485-B63B-3BF5FF2DE42A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{938DD4FF-8612-4485-B63B-3BF5FF2DE42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{938DD4FF-8612-4485-B63B-3BF5FF2DE42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{938DD4FF-8612-4485-B63B-3BF5FF2DE42A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{A3E0C10A-F784-4613-8344-BAB5FB818D72} = {7BB08EA3-7896-410C-8528-AC300836D371}
 		{A3FA045C-6512-4876-8A35-D18185CB34D2} = {7BB08EA3-7896-410C-8528-AC300836D371}
 		{AABA0F3D-D9DA-4982-82E9-EEA2CF4F4677} = {0B08DC9E-DA94-48A0-BA15-3E16446193E8}
+		{938DD4FF-8612-4485-B63B-3BF5FF2DE42A} = {7288807B-8798-4941-9602-430A252CC33B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F39819EF-C6A0-44D9-BC47-D115396A20B2}

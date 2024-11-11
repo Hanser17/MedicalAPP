@@ -235,6 +235,7 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                                               join p in _medicalAppointmentContext.Patients on a.PatientID equals p.PatientID
                                               join up in _medicalAppointmentContext.Users on p.PatientID equals up.UserID
                                               join s in _medicalAppointmentContext.Status on a.StatusID equals s.StatusID
+                                              orderby a.CreatedAt descending
                                              
                                               select new AppointmentsModel
 
