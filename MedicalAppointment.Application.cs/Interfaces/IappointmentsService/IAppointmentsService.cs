@@ -3,10 +3,13 @@
 using MedicalAppoiments.Domain.Entities.appointments;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
+using MedicalAppoiments.Persistance.Models.appointments;
+using MedicalAppoiments.Persistance.Models.appointmentsModel;
+using MedicalAppointment.Application.Interfaces.IbaseService;
 
 namespace MedicalAppointment.Application.Interfaces.IappointmentsService
 {
-    public interface IAppointmentsService
+    public interface IAppointmentsService 
     {
         Task<OperationResult> GetAllAppointmentsAsync();
         Task<OperationResult> GetAppointmentsByIdAsync(int id);

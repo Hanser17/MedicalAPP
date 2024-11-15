@@ -1,14 +1,10 @@
-﻿using MedicalAppoiments.Persistance.Models.BaseModel;
+﻿using MedicalAppoiments.Persistance.Models.appointmentsModel;
 
 namespace MedicalAppoiments.Persistance.Models.appointments
 {
-    public sealed  class AppointmentsModel
+    public sealed  class AppointmentsModel : AppointmentBaseDTO
     {
         public int AppointmentID { get; set; }
-        public int DoctorID { get; set; }
-
-        public int PatientID { get; set; }
-        public DateTime? AppointmentDate { get; set; }
 
         public int StatusID { get; set; }
 

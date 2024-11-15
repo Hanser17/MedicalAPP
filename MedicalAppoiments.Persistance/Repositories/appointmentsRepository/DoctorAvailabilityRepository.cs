@@ -7,6 +7,7 @@ using MedicalAppoiments.Persistance.Interfaces.Iappointments;
 using MedicalAppoiments.Persistance.Repositories.usersRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Security.Principal;
 
 namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
 {
@@ -38,19 +39,19 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                 operationResult.message = "DoctorID no valido";
                 return operationResult;
             }
-            if (entity.AvailableDate <= DateTime.Now)
+            if (entity.AvailableDate <= DateOnly.FromDateTime(DateTime.Today))
             {
                 operationResult.success = false;
                 operationResult.message = "Fecha de disponibilidad no puede ser en el pasado";
                 return operationResult;
             }
-            if (entity.StartTime <= DateTime.Now)
+            if (entity.StartTime == null)
             {
                 operationResult.success = false;
-                operationResult.message = "Hora de inicio de StartTime no puede ser en el pasado";
+                operationResult.message = "La hora de inicio (StartTime) no puede ser nula.";
                 return operationResult;
             }
-            if (entity.EndTime <= DateTime.Now)
+            if (entity.EndTime == null)
             {
                 operationResult.success = false;
                 operationResult.message = "Hora de termino no puede ser en el pasado";
@@ -87,19 +88,19 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                 operationResult.message = "DoctorID no valido";
                 return operationResult;
             }
-            if (entity.AvailableDate <= DateTime.Now)
+            if(entity.AvailableDate <= DateOnly.FromDateTime(DateTime.Today))
             {
                 operationResult.success = false;
                 operationResult.message = "Fecha de disponibilidad no puede ser en el pasado";
                 return operationResult;
             }
-            if (entity.StartTime <= DateTime.Now)
+            if (entity.StartTime == null)
             {
                 operationResult.success = false;
                 operationResult.message = "Hora de inicio de StartTime no puede ser en el pasado";
                 return operationResult;
             }
-            if (entity.EndTime <= DateTime.Now)
+            if (entity.EndTime == null)
             {
                 operationResult.success = false;
                 operationResult.message = "Hora de termino no puede ser en el pasado";

@@ -1,4 +1,4 @@
-﻿@model MedicalAppoiments.Persistance.Models.appointments.AppointmentsModel
+﻿@model MedicalAppoiments.Persistance.Models.appointments.AppointmentUpdateDTO
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,16 +6,23 @@
 
 <h1>Edit</h1>
 
-<h4>AppointmentsModel</h4>
+<h4>Appointment Update</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            
             <div class="form-group">
                 <label asp-for="AppointmentID" class="control-label"></label>
-                <input asp-for="AppointmentID" class="form-control" />
+                <input asp-for="AppointmentID" class="form-control" readonly />
                 <span asp-validation-for="AppointmentID" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="StatusID" class="control-label"></label>
+                <input asp-for="StatusID" class="form-control" />
+                <span asp-validation-for="StatusID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DoctorID" class="control-label"></label>
@@ -31,32 +38,6 @@
                 <label asp-for="AppointmentDate" class="control-label"></label>
                 <input asp-for="AppointmentDate" class="form-control" />
                 <span asp-validation-for="AppointmentDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StatusID" class="control-label"></label>
-                <input asp-for="StatusID" class="form-control" />
-                <span asp-validation-for="StatusID" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DoctorFirstName" class="control-label"></label>
-                <input asp-for="DoctorFirstName" class="form-control" />
-                <span asp-validation-for="DoctorFirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DoctorLastName" class="control-label"></label>
-                <input asp-for="DoctorLastName" class="form-control" />
-                <span asp-validation-for="DoctorLastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PatientFirstName" class="control-label"></label>
-                <input asp-for="PatientFirstName" class="form-control" />
-                <span asp-validation-for="PatientFirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PatientLastName" class="control-label"></label>
-                <input asp-for="PatientLastName" class="form-control" />
-                <span asp-validation-for="PatientLastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

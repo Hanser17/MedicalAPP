@@ -1,7 +1,8 @@
-﻿using MedicalAppoiments.Domain.Entities.appointments;
+﻿using AutoMapper;
+using MedicalAppoiments.Domain.Entities.appointments;
 using MedicalAppoiments.Persistance.Models.appointments;
+using MedicalAppoiments.Persistance.Models.appointmentsModel;
 using MedicalAppointment.Application.Interfaces.IappointmentsService;
-using MedicalAppointment.Application.Service.appointments.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,11 @@ namespace MedicalAppointmentWeb.Controllers
     public class AppointmentController1 : Controller
     {
         private readonly IAppointmentsService _appointmentsService;
-        public AppointmentController1 ( IAppointmentsService appointmentsService)
+        private readonly IMapper _mapper;
+        public AppointmentController1 ( IAppointmentsService appointmentsService, IMapper mapper)
         {
             _appointmentsService = appointmentsService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -48,11 +51,14 @@ namespace MedicalAppointmentWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Appointments appointments)
+        public async Task<IActionResult> Create(AppointmentSaveDTO appointmentSaveDTO)
         {
             try
             {
+
+                Appointments appointments = _mapper.Map<Appointments>(appointmentSaveDTO);
                 appointments.CreatedAt = DateTime.Now;
+                appointments.StatusID = 2;
                 var result = await _appointmentsService.SaveAppointmentsAsync(appointments);
 
                 if (result.success)
@@ -79,8 +85,8 @@ namespace MedicalAppointmentWeb.Controllers
             var result = await _appointmentsService.GetAppointmentsByIdAsync(id);
             if (result.success)
             {
-                AppointmentsModel appointmentsModel = (AppointmentsModel)result.Data;
-                return View(appointmentsModel);
+                AppointmentUpdateDTO appointmentUpdateDTO = _mapper.Map<AppointmentUpdateDTO>(result.Data);
+                return View(appointmentUpdateDTO);
             }
             return View();
         }
@@ -88,11 +94,14 @@ namespace MedicalAppointmentWeb.Controllers
        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Appointments appointments)
+        public async Task<IActionResult> Edit(AppointmentUpdateDTO appointmentUpdateDTO)
         {
             try
             {
+                Appointments appointments = _mapper.Map<Appointments>(appointmentUpdateDTO);
                 appointments.UpdatedAt = DateTime.Now;
+                
+
                 var result = await _appointmentsService.UpdateAppointmentsAsync(appointments);
 
                 if (result.success)
