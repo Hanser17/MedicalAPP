@@ -1,11 +1,10 @@
-﻿
-@model IEnumerable<MedicalAppoiments.Domain.Entities.appointments.DoctorAvailability>
+﻿@model IEnumerable<MedicalAppoiments.Domain.Entities.appointments.DoctorAvailability>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Doctor Availability</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -50,9 +49,9 @@
                 @Html.DisplayFor(modelItem => item.EndTime)
             </td>
             <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.AvailabilityID  }) |
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.AvailabilityID  }) |
                     @Html.ActionLink("Details", "Details", new {  id=item.AvailabilityID  }) |
-               
+                
             </td>
         </tr>
 }
