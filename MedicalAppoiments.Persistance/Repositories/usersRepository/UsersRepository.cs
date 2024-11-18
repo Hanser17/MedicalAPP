@@ -5,6 +5,7 @@ using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
+using MedicalAppoiments.Persistance.Models.usersModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -199,17 +200,28 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
+                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
+                                              where u.IsActive
+                                              select new UserModel
+                                              {
+                                                  UserID = u.UserID,
+                                                  FirstName = u.FirstName,
+                                                  LastName = u.LastName,
+                                                  Email = u.Email,
+                                                  RoleName = r.RoleName,
+                                                  IsActive = u.IsActive,
 
-                var users = await _medicalAppointmentContext.Users.ToListAsync();
-                if (users == null || !users.Any())
+                                              }).ToListAsync();
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
-                    operationResult.message = "No se encontraron pacientes.";
+                    operationResult.message = "No se encontró registro de Users.";
+                    return operationResult;
                 }
                 else
                 {
                     operationResult.success = true;
-                    operationResult.Data = users;
                 }
             }
             catch (Exception ex)
@@ -236,16 +248,27 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 
             try
             {
-                var user = await _medicalAppointmentContext.Users.FindAsync(id);
-                if (user == null)
+                operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                                              where u.IsActive && u.UserID == id
+                                              select new UserModel
+                                              {
+                                                  UserID = u.UserID,
+                                                  FirstName = u.FirstName,
+                                                  LastName = u.LastName,
+                                                  Email = u.Email,
+                                                  IsActive = u.IsActive,
+
+                                              }).ToListAsync();
+                if (operationResult.Data.Count == 0)
                 {
                     operationResult.success = false;
-                    operationResult.message = "El User no existe.";
+                    operationResult.message = "No se encontró registro de Users.";
                     return operationResult;
                 }
-
-                operationResult.success = true;
-                operationResult.Data = user;
+                else
+                {
+                    operationResult.success = true;
+                }
             }
             catch (Exception ex)
             {

@@ -58,7 +58,7 @@ namespace MedicalAppointmentWeb.Controllers
 
                 Appointments appointments = _mapper.Map<Appointments>(appointmentSaveDTO);
                 appointments.CreatedAt = DateTime.Now;
-                appointments.StatusID = 2;
+                appointments.StatusID = 1;
                 var result = await _appointmentsService.SaveAppointmentsAsync(appointments);
 
                 if (result.success)

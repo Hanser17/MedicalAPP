@@ -1,8 +1,12 @@
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iappointments;
+using MedicalAppoiments.Persistance.Interfaces.Iusers;
 using MedicalAppoiments.Persistance.Repositories.appointmentsRepository;
+using MedicalAppoiments.Persistance.Repositories.usersRepository;
 using MedicalAppointment.Application.Interfaces.IappointmentsService;
+using MedicalAppointment.Application.Interfaces.Iusersservice;
 using MedicalAppointment.Application.Service.appointments.Service;
+using MedicalAppointment.Application.Service.users.service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +22,11 @@ builder.Services.AddScoped<IDoctorAvailabilityRepository, DoctorAvailabilityRepo
 
 builder.Services.AddTransient<IDoctorAvailabilityService, DoctorAvailabilityService>();
 builder.Services.AddTransient<IAppointmentsService, AppointmentsService>();
+
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+
+builder.Services.AddTransient<IUsersService, UsersService>();
+
 builder.Services.AddAutoMapper( typeof(MedicalAppointment.Application.Mapper_Profile.MapperProfile).Assembly);
 
 
