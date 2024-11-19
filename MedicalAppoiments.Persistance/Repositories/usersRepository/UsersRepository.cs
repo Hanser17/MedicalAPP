@@ -249,6 +249,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             try
             {
                 operationResult.Data = await (from u in _medicalAppointmentContext.Users
+                                              join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
                                               where u.IsActive && u.UserID == id
                                               select new UserModel
                                               {
@@ -257,9 +258,11 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   LastName = u.LastName,
                                                   Email = u.Email,
                                                   IsActive = u.IsActive,
+                                                  RoleID = r.RoleID,
+                                                  Password = u.Password,
 
-                                              }).ToListAsync();
-                if (operationResult.Data.Count == 0)
+                                              }).FirstOrDefaultAsync();
+                if (operationResult.Data == null)
                 {
                     operationResult.success = false;
                     operationResult.message = "No se encontró registro de Users.";

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Persistance.Models.usersModel;
 using MedicalAppointment.Application.Interfaces.Iusersservice;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,12 @@ namespace MedicalAppointmentWeb.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
+            var result = await _usersService.GetUserById(id);
+            if (result.success)
+            {
+                UserModel users = (UserModel) result.Data;
+                return View(users);
+            }
             return View();
         }
 
@@ -40,11 +47,23 @@ namespace MedicalAppointmentWeb.Controllers
       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(UserSaveDTO userSaveDTO)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                Users users =  _mapper.Map<Users>(userSaveDTO);
+                users.CreatedAt = DateTime.Now;
+                users.IsActive = true;
+                var result = await _usersService.SaveUser(users);
+                if (result.success)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Message = result.message;
+                    return View();
+                }
             }
             catch
             {
@@ -52,20 +71,40 @@ namespace MedicalAppointmentWeb.Controllers
             }
         }
 
-     
-        public ActionResult Edit(int id)
+
+        public async Task<IActionResult> Edit(int id)
         {
+            var result = await _usersService.GetUserById(id);
+            if (result.success)
+            {
+                UserUpdateDTO userUpdateDTO = _mapper.Map<UserUpdateDTO>(result.Data);
+                return View(userUpdateDTO);
+            }
+
             return View();
         }
 
     
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(UserUpdateDTO userUpdateDTO)
         {
+            Users user =  _mapper.Map<Users>(userUpdateDTO);
+            user.UpdatedAt = DateTime.Now;
+            user.IsActive = true;
             try
             {
-                return RedirectToAction(nameof(Index));
+                var result = await _usersService.UpdateUser(user);
+                if (result.success)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Message = result.message;
+                    return View() ;
+                }
+                
             }
             catch
             {
