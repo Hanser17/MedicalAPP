@@ -51,9 +51,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.RoleName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
+                <td class="@(item.IsActive ? "bg-success" : "bg-danger")">
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
             <td>
                     @Html.ActionLink("Edit", "Edit", new {  id=item.UserID  }) |
                     @Html.ActionLink("Details", "Details", new {  id=item.UserID  }) |

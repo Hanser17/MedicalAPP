@@ -1,4 +1,5 @@
 ﻿
+using MedicalAppoiments.Domain.Entities.medical;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
@@ -142,12 +143,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                     operationResult.message = "El Doctor ID no existe";
                     return operationResult;
                 }
-                if (await base.Exists(doctor => doctor.DoctorID == entity.DoctorID))
-                {
-                    operationResult.success = false;
-                    operationResult.message = "El Doctor ID ta esta asignanado a otro Doctor ";
-                    return operationResult;
-                }
+             
 
                 
                 doctortoUpdate.SpecialtyID = entity.SpecialtyID;
@@ -231,7 +227,8 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   LastName = u.LastName,
                                                   ConsultationFee = d.ConsultationFee,
                                                   SpecialtyName = s.SpecialtyName,
-                                                  IsActive = d.IsActive
+                                                  SpecialtyID = s.SpecialtyID,
+                                                IsActive = d.IsActive,
                                               }). ToListAsync();
                 if (operationResult.Data.Count == 0)
                 {
@@ -281,6 +278,15 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   LastName = u.LastName,
                                                   ConsultationFee = d.ConsultationFee,
                                                   SpecialtyName = s.SpecialtyName,
+                                                  SpecialtyID = s.SpecialtyID,
+                                                  LicenseNumber = d.LicenseNumber,
+                                                  PhoneNumber = d.PhoneNumber,
+                                                  YearsOfExperience = d.YearsOfExperience,
+                                                  Education = d.Education,
+                                                  Bio = d.Bio,
+                                                  ClinicAddress = d.ClinicAddress,
+                                                  AvailabilityModeId = d.AvailabilityModeId,
+                                                  LicenseExpirationDate = d.LicenseExpirationDate,
                                                   IsActive = d.IsActive
                                               }).FirstOrDefaultAsync();
                 if (operationResult.Data == null)
@@ -329,6 +335,14 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   LastName = u.LastName,
                                                   ConsultationFee = d.ConsultationFee,
                                                   SpecialtyName = s.SpecialtyName,
+                                                  LicenseNumber = d.LicenseNumber,
+                                                  PhoneNumber = d.PhoneNumber,
+                                                  YearsOfExperience = d.YearsOfExperience,
+                                                  Education = d.Education,
+                                                  Bio = d.Bio,
+                                                  ClinicAddress = d.ClinicAddress,
+                                                  AvailabilityModeId = d.AvailabilityModeId,
+                                                  LicenseExpirationDate = d.LicenseExpirationDate,
                                                   IsActive = d.IsActive
                                               }).ToListAsync();
                 if (operationResult.Data.Count == 0)
@@ -381,6 +395,14 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   LastName = u.LastName,
                                                   ConsultationFee = d.ConsultationFee,
                                                   SpecialtyName = s.SpecialtyName,
+                                                  LicenseNumber = d.LicenseNumber,
+                                                  PhoneNumber = d.PhoneNumber,
+                                                  YearsOfExperience = d.YearsOfExperience,
+                                                  Education = d.Education,
+                                                  Bio = d.Bio,
+                                                  ClinicAddress = d.ClinicAddress,
+                                                  AvailabilityModeId = d.AvailabilityModeId,
+                                                  LicenseExpirationDate = d.LicenseExpirationDate,
                                                   IsActive = d.IsActive
                                               }).ToListAsync();
                 if (operationResult.Data.Count == 0)

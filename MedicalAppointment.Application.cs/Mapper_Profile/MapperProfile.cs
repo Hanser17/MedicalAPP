@@ -18,6 +18,9 @@ namespace MedicalAppointment.Application.Mapper_Profile
             CreateMap<AppointmentsModel, AppointmentUpdateDTO>();
             CreateMap<AppointmentUpdateDTO, Appointments>();
             CreateMap< AppointmentSaveDTO, Appointments> ();
+            #endregion
+
+            #region DoctorAvailibility
 
             CreateMap<DoctorAvailibilitySaveDTO, DoctorAvailability>();
             CreateMap<DoctorAvailability, DoctorAvailibilityUpdateDTO>();
@@ -28,8 +31,13 @@ namespace MedicalAppointment.Application.Mapper_Profile
             CreateMap<UserModel, UserUpdateDTO>();
             CreateMap<UserUpdateDTO, Users>();
             CreateMap<UserSaveDTO, Users>();
-         
 
+            #endregion
+
+            #region Doctors
+            CreateMap <DoctorsModel, DoctorUpdateDTO>();
+            CreateMap <DoctorUpdateDTO, Doctors>();
+            CreateMap <DoctorsSaveDTO, Doctors>();
 
             #endregion
 

@@ -202,7 +202,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
             {
                 operationResult.Data = await (from u in _medicalAppointmentContext.Users
                                               join r in _medicalAppointmentContext.Roles on u.RoleID equals r.RoleID
-                                              where u.IsActive
+                                              
                                               select new UserModel
                                               {
                                                   UserID = u.UserID,

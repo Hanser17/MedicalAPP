@@ -1,16 +1,9 @@
 ﻿
 
-using MedicalAppoiments.Domain.Base;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MedicalAppoiments.Domain.Entities.users
+namespace MedicalAppoiments.Persistance.Models.usersModel
 {
-    [Table("Doctors", Schema = "users")]
-    public class Doctors : BaseEntity
+    public abstract class DoctorBaseDTO
     {
-        [Key]
-        public int DoctorID { get; set; }
         public Int16 SpecialtyID { get; set; }
         public string? LicenseNumber { get; set; }
         public string? PhoneNumber { get; set; }
@@ -21,12 +14,7 @@ namespace MedicalAppoiments.Domain.Entities.users
         public string? ClinicAddress { get; set; }
         public int? AvailabilityModeId { get; set; }
         public DateTime LicenseExpirationDate { get; set; }
-
- 
-
         public bool IsActive { get; set; }
-
-
 
     }
 }
