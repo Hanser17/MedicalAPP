@@ -24,11 +24,14 @@ builder.Services.AddTransient<IDoctorAvailabilityService, DoctorAvailabilityServ
 builder.Services.AddTransient<IAppointmentsService, AppointmentsService>();
 
 
+
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IDoctorsRepository, DoctorsRepository>();
+builder.Services.AddScoped<IPatientsRepository, PatientsRepositoy>();
 
 builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddTransient<IDoctorService, DoctorService>();
+builder.Services.AddTransient<IPatientService, PatientService>();
 
 builder.Services.AddAutoMapper( typeof(MedicalAppointment.Application.Mapper_Profile.MapperProfile).Assembly);
 

@@ -1,4 +1,5 @@
 ﻿
+using MedicalAppoiments.Domain.Entities.insurance;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Domain.Result;
 using MedicalAppoiments.Persistance.Base;
@@ -8,6 +9,8 @@ using MedicalAppoiments.Persistance.Models.appointments;
 using MedicalAppoiments.Persistance.Models.usersModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Reflection;
 
 namespace MedicalAppoiments.Persistance.Repositories.usersRepository
 {
@@ -192,12 +195,7 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                     operationResult.message = "El Patient ID no existe";
                     return operationResult;
                 }
-                if (await base.Exists(patient => patient.PatientID == entity.PatientID))
-                {
-                    operationResult.success = false;
-                    operationResult.message = "El Patient ID ta esta asignanado a otro paciente ";
-                    return operationResult;
-                }
+             
 
                 patienttoUpdate.PatientID = entity.PatientID;
                 patienttoUpdate.DateOfBirth = entity.DateOfBirth;
@@ -328,6 +326,14 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   FirstName = u.FirstName,
                                                   LastName = u.LastName,
                                                   DateOfBirth = p.DateOfBirth,
+                                                  Gender = p.Gender,
+                                                  PhoneNumber = p.PhoneNumber,
+                                                  Address = p.Address,
+                                                  EmergencyContactName = p.EmergencyContactName,
+                                                  EmergencyContactPhone =   p.EmergencyContactPhone,
+                                                  BloodType = p.BloodType,
+                                                  Allergies = p.Allergies,
+                                                  InsuranceProviderID = p.InsuranceProviderID,
                                                   IsActive = p.IsActive,
                                                   InsuranceName = i.Name
                                               }).FirstOrDefaultAsync();
@@ -379,6 +385,14 @@ namespace MedicalAppoiments.Persistance.Repositories.usersRepository
                                                   FirstName = u.FirstName,
                                                   LastName = u.LastName,
                                                   DateOfBirth = p.DateOfBirth,
+                                                  Gender = p.Gender,
+                                                  PhoneNumber = p.PhoneNumber,
+                                                  Address = p.Address,
+                                                  EmergencyContactName = p.EmergencyContactName,
+                                                  EmergencyContactPhone = p.EmergencyContactPhone,
+                                                  BloodType = p.BloodType,
+                                                  Allergies = p.Allergies,
+                                                  InsuranceProviderID = p.InsuranceProviderID,
                                                   IsActive = p.IsActive,
                                                   InsuranceName = i.Name
                                               }).ToListAsync();

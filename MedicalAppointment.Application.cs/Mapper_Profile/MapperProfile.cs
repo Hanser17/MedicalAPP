@@ -41,6 +41,12 @@ namespace MedicalAppointment.Application.Mapper_Profile
 
             #endregion
 
+            #region Patient
+            CreateMap <PatientsModel,  PatientUpdateDTO>();
+            CreateMap <PatientUpdateDTO, Patients>();
+            CreateMap <PatientSaveDTO, Patients>();
+            #endregion
+
         }
     }
 }
