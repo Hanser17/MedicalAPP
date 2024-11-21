@@ -17,4 +17,8 @@
     <ProjectReference Include="..\MedicalAppointment.Application.cs\MedicalAppointment.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\AvalabilityController1\" />
+  </ItemGroup>
+
 </Project>

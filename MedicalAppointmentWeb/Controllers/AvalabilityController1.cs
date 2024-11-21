@@ -30,8 +30,8 @@ namespace MedicalAppointmentWeb.Controllers
             var result = await _availabilityModesService.GetAllAvailabilityModesAsync();
             if (result.success)
             {
-                List<AvailabilityModes> availabilityModes = (List<AvailabilityModes>)result.Data;
-                return View(availabilityModes);
+                List<AvailabilityModelDTO> availabilityModelDTOs = (List<AvailabilityModelDTO>)result.Data;
+                return View(availabilityModelDTOs);
             }
 
             return View();
@@ -42,8 +42,8 @@ namespace MedicalAppointmentWeb.Controllers
             var result = await _availabilityModesService.GetByIDAvailabilityModesAsync(id);
             if (result.success)
             {
-                AvailabilityModes availabilityModes = (AvailabilityModes)result.Data;
-                return View(availabilityModes);
+                AvailabilityModelDTO availabilityModelDTO =(AvailabilityModelDTO)result.Data;
+                return View(availabilityModelDTO);
             }
             return View();
 
