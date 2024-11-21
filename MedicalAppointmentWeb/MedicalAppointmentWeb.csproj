@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <Folder Include="Views\AvalabilityController1\" />
+    <Folder Include="Views\NotificationController1\" />
+    <Folder Include="Views\RolesController\" />
+    <Folder Include="Views\StatusController1\" />
   </ItemGroup>
 
 </Project>

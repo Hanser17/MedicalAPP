@@ -12,6 +12,6 @@ namespace MedicalAppoiments.Persistance.Models.SystemModel.Notifications
         public int UserID { get; set; }
 
         public string? Message { get; set; }
-        public DateTime? SentAt { get; set; }
+      
     }
 }

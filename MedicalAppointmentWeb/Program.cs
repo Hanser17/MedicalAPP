@@ -54,18 +54,18 @@ builder.Services.AddTransient<IInsuranceProvidersService, InsuranceProvidersServ
 builder.Services.AddTransient<INetworkTypeService, NetworkTypeService>();
 
 //----- IVERSON INYECCION DE DEPENDENCIA
-builder.Services.AddTransient<INotificationsRepository, NotificationsRepository>();
-builder.Services.AddTransient<IRolesRepository, RolesRepository>();
-builder.Services.AddTransient<IStatusRepositoty, StatusRepositoty>();
+builder.Services.AddScoped<INotificationsRepository, NotificationsRepository>();
+builder.Services.AddScoped<IRolesRepository, RolesRepository>();
+builder.Services.AddScoped<IStatusRepositoty, StatusRepositoty>();
 
 builder.Services.AddTransient<INotificationsService, NotificationsService>();
 builder.Services.AddTransient<IRolesService, RolesService>();
 builder.Services.AddTransient<IStatusService, StatusService>();
 
 //----- ANDERSON INYECCION DE DEPENDENCIA
-builder.Services.AddTransient<IAvailabilityModesRepository, AvailabilityModesRepository>();
-builder.Services.AddTransient<IMedicalRecordsRepository, MedicalRecordsRepository>();
-builder.Services.AddTransient<ISpecialtiesRepository, SpecialtiesRepository>();
+builder.Services.AddScoped<IAvailabilityModesRepository, AvailabilityModesRepository>();
+builder.Services.AddScoped<IMedicalRecordsRepository, MedicalRecordsRepository>();
+builder.Services.AddScoped<ISpecialtiesRepository, SpecialtiesRepository>();
 
 builder.Services.AddTransient<IAvailabilityModesService, AvailabilityModesService >();
 builder.Services.AddTransient<IMedicalRecordsService, MedicalRecordsService>();

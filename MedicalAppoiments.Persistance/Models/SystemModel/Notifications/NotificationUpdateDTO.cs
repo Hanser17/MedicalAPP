@@ -8,6 +8,6 @@ namespace MedicalAppoiments.Persistance.Models.SystemModel.Notifications
 {
     public class NotificationUpdateDTO : NotificationBaseDTO
     {
-        public DateTime UpdateAt { get; set; }
+       
     }
 }

@@ -25,7 +25,7 @@ namespace MedicalAppointmentWeb.Controllers
         }
 
 
-        public  async Task<ActionResult> Index()
+        public  async Task<IActionResult> Index()
         {
             var result = await _availabilityModesService.GetAllAvailabilityModesAsync();
             if (result.success)
@@ -37,7 +37,7 @@ namespace MedicalAppointmentWeb.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var result = await _availabilityModesService.GetByIDAvailabilityModesAsync(id);
             if (result.success)
@@ -56,7 +56,7 @@ namespace MedicalAppointmentWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AvailabilitySaveDTO availabilitySaveDTO)
+        public async Task<IActionResult> Create(AvailabilitySaveDTO availabilitySaveDTO)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace MedicalAppointmentWeb.Controllers
             }
         }
 
-        public async Task<ActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var result = await _availabilityModesService.GetByIDAvailabilityModesAsync(id);
             AvailabilityUdapteDTO availabilityUdapteDTO = _mapper.Map<AvailabilityUdapteDTO>(result.Data);
@@ -90,7 +90,7 @@ namespace MedicalAppointmentWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AvailabilityUdapteDTO availabilityUdapteDTO )
+        public async Task<IActionResult> Edit(AvailabilityUdapteDTO availabilityUdapteDTO )
         {
             try
             {

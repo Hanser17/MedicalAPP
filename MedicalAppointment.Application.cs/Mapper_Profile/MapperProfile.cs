@@ -72,7 +72,7 @@ namespace MedicalAppointment.Application.Mapper_Profile
 
 
             #region Notification
-            CreateMap<NotificationModelDTO, NotificationUpdateDTO>();
+            CreateMap<Notifications, NotificationUpdateDTO>();
             CreateMap<NotificationUpdateDTO, Notifications>();
             CreateMap<NotificationSaveDTO, Notifications>();
             #endregion

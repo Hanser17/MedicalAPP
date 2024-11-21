@@ -23,26 +23,26 @@ namespace MedicalAppointmentWeb.Controllers
             _mapper = mapper;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var result = await _notificationsService.GetAllNotificationsAsync();
 
             if (result.success)
             {
-                List<Notifications> notifications = (List<Notifications>)result.Data;
-                return View(notifications);
+                List<NotificationModelDTO> notificationModelDTOs = (List<NotificationModelDTO>)result.Data;
+                return View(notificationModelDTOs);
             }
             return View();
         }
 
 
-        public async Task<ActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var result = await _notificationsService.GetNotificationByIdAsync(id);
             if (result.success)
             {
-                Notifications notifications = (Notifications)result.Data;
-                return View(notifications);
+                NotificationModelDTO notificationModelDTO = (NotificationModelDTO)result.Data;
+                return View(notificationModelDTO);
             }
             return View();
         }
@@ -62,6 +62,7 @@ namespace MedicalAppointmentWeb.Controllers
             {
 
                 Notifications notifications = _mapper.Map<Notifications>(notificationSaveDTO);
+                notifications.SentAt = DateTime.Now;
                 var result = await _notificationsService.SaveNotificationAsync(notifications);
 
                 if (result.success)
@@ -83,7 +84,7 @@ namespace MedicalAppointmentWeb.Controllers
         }
 
 
-        public async Task<ActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var result = await _notificationsService.GetNotificationByIdAsync(id);
             if (result.success)
@@ -99,11 +100,12 @@ namespace MedicalAppointmentWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(NotificationUpdateDTO notificationUpdateDTO)
+        public async Task<IActionResult> Edit(NotificationUpdateDTO notificationUpdateDTO)
         {
             try
             {
                 Notifications notifications = _mapper.Map<Notifications>(notificationUpdateDTO);
+                notifications.SentAt= DateTime.Now;
                 var result = await _notificationsService.UpdateNotificationAsync(notifications);
                 if (result.success)
                 {
