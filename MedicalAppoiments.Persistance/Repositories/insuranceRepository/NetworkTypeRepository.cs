@@ -25,6 +25,7 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
             OperationResult operationResult = new OperationResult();
 
 
+            
             if (string.IsNullOrEmpty(entity.Name) || entity.Name.Length >= 50)
             {
                 operationResult.success = false;

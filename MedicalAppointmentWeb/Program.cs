@@ -39,8 +39,11 @@ builder.Services.AddTransient<IPatientService, PatientService>();
 
 
 builder.Services.AddScoped<IInsuranceProvidersRepository, InsuranceProvidersRepository>();
+builder.Services.AddScoped<INetworkTypeRepository, NetworkTypeRepository>();
 
 builder.Services.AddTransient<IInsuranceProvidersService, InsuranceProvidersService>();
+builder.Services.AddTransient<INetworkTypeService, NetworkTypeService>();
+
 
 
 builder.Services.AddAutoMapper( typeof(MedicalAppointment.Application.Mapper_Profile.MapperProfile).Assembly);

@@ -8,6 +8,7 @@ using MedicalAppoiments.Persistance.Models.appointments;
 using MedicalAppoiments.Persistance.Models.appointmentsModel;
 using MedicalAppoiments.Persistance.Models.DoctorAvailivilityModel;
 using MedicalAppoiments.Persistance.Models.insuranseModel;
+using MedicalAppoiments.Persistance.Models.NetWorkTypeModel;
 using MedicalAppoiments.Persistance.Models.usersModel;
 
 namespace MedicalAppointment.Application.Mapper_Profile
@@ -53,6 +54,12 @@ namespace MedicalAppointment.Application.Mapper_Profile
              CreateMap <InsuranceProvidersModel, InsuranceProvidersUpdateDTO > ();
              CreateMap<InsuranceProvidersUpdateDTO, InsuranceProviders>();
              CreateMap<InsuranceProvidersSaveDTO, InsuranceProviders>();
+            #endregion
+
+            #region NetworkType
+            CreateMap<NetworkTypeAllDTO, NetworkTypeUpdateDTO>();
+            CreateMap<NetworkTypeUpdateDTO, NetworkType>();
+            CreateMap<NetWorkTypeSaveDTO, NetworkType>();
             #endregion
         }
     }
