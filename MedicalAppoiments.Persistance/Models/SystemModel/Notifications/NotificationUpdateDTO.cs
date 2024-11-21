@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MedicalAppoiments.Persistance.Models.SystemModel.Notifications
 {
-    public class NotificationUpdateDTO
+    public class NotificationUpdateDTO : NotificationBaseDTO
     {
         public DateTime UpdateAt { get; set; }
     }

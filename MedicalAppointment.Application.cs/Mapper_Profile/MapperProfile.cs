@@ -3,12 +3,16 @@
 using AutoMapper;
 using MedicalAppoiments.Domain.Entities.appointments;
 using MedicalAppoiments.Domain.Entities.insurance;
+using MedicalAppoiments.Domain.Entities.medical;
 using MedicalAppoiments.Domain.Entities.system;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Persistance.Models.appointments;
 using MedicalAppoiments.Persistance.Models.appointmentsModel;
 using MedicalAppoiments.Persistance.Models.DoctorAvailivilityModel;
 using MedicalAppoiments.Persistance.Models.insuranseModel;
+using MedicalAppoiments.Persistance.Models.MedicalModel.Availability;
+using MedicalAppoiments.Persistance.Models.MedicalModel.MedicalRecorsd;
+using MedicalAppoiments.Persistance.Models.MedicalModel.Specialties;
 using MedicalAppoiments.Persistance.Models.NetWorkTypeModel;
 using MedicalAppoiments.Persistance.Models.SystemModel.Notifications;
 using MedicalAppoiments.Persistance.Models.SystemModel.Roles;
@@ -88,7 +92,24 @@ namespace MedicalAppointment.Application.Mapper_Profile
             #endregion
 
 
+            #region Availability
+            CreateMap<AvailabilityBaseDTO, AvailabilityUdapteDTO>();
+            CreateMap<AvailabilityUdapteDTO, AvailabilityModes>();
+            CreateMap<AvailabilitySaveDTO, AvailabilityModes>();
+            #endregion
 
+
+            #region MedicalRecorsd
+            CreateMap<MedicalRecorsdBaseDTO, MedicalRecorsdUdapteDTO>();
+            CreateMap<MedicalRecorsdUdapteDTO, MedicalRecords>();
+            CreateMap<MedicalRecorsdSaveDTO, MedicalRecords>();
+            #endregion
+
+            #region Specialties
+            CreateMap<SpecialtiesBaseDTO, SpecialtiesUdapteDTO>();
+            CreateMap<SpecialtiesUdapteDTO, Specialties>();
+            CreateMap<SpecialtiesSaveDTO, Specialties>();
+            #endregion
 
 
         }
