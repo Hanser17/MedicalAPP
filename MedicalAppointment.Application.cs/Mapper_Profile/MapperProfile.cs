@@ -3,12 +3,16 @@
 using AutoMapper;
 using MedicalAppoiments.Domain.Entities.appointments;
 using MedicalAppoiments.Domain.Entities.insurance;
+using MedicalAppoiments.Domain.Entities.system;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Persistance.Models.appointments;
 using MedicalAppoiments.Persistance.Models.appointmentsModel;
 using MedicalAppoiments.Persistance.Models.DoctorAvailivilityModel;
 using MedicalAppoiments.Persistance.Models.insuranseModel;
 using MedicalAppoiments.Persistance.Models.NetWorkTypeModel;
+using MedicalAppoiments.Persistance.Models.SystemModel.Notifications;
+using MedicalAppoiments.Persistance.Models.SystemModel.Roles;
+using MedicalAppoiments.Persistance.Models.SystemModel.Status;
 using MedicalAppoiments.Persistance.Models.usersModel;
 
 namespace MedicalAppointment.Application.Mapper_Profile
@@ -61,6 +65,34 @@ namespace MedicalAppointment.Application.Mapper_Profile
             CreateMap<NetworkTypeUpdateDTO, NetworkType>();
             CreateMap<NetWorkTypeSaveDTO, NetworkType>();
             #endregion
+
+
+            #region Notification
+            CreateMap<NotificationModelDTO, NotificationUpdateDTO>();
+            CreateMap<NotificationUpdateDTO, Notifications>();
+            CreateMap<NotificationSaveDTO, Notifications>();
+            #endregion
+
+
+            #region Roles
+            CreateMap<RolesModelDTO, RolesUpdateDTO>();
+            CreateMap<RolesUpdateDTO, Roles>();
+            CreateMap<RolesSaveDto, Roles>();
+            #endregion
+
+
+            #region Status
+            CreateMap<StatusModelDTO, StatusUpdateDTO>();
+            CreateMap<StatusUpdateDTO, Status>();
+            CreateMap<StatusSaveDTO, Status>();
+            #endregion
+
+
+
+
+
         }
     }
 }
+
+

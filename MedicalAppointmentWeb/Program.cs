@@ -1,15 +1,20 @@
 using MedicalAppoiments.Persistance.Context;
 using MedicalAppoiments.Persistance.Interfaces.Iappointments;
 using MedicalAppoiments.Persistance.Interfaces.Iinsurance;
+using MedicalAppoiments.Persistance.Interfaces.Isystem;
 using MedicalAppoiments.Persistance.Interfaces.Iusers;
 using MedicalAppoiments.Persistance.Repositories.appointmentsRepository;
 using MedicalAppoiments.Persistance.Repositories.insuranceRepository;
+using MedicalAppoiments.Persistance.Repositories.systemRepository;
 using MedicalAppoiments.Persistance.Repositories.usersRepository;
 using MedicalAppointment.Application.Interfaces.IappointmentsService;
 using MedicalAppointment.Application.Interfaces.IinsuranceService;
+using MedicalAppointment.Application.Interfaces.IsystemService;
 using MedicalAppointment.Application.Interfaces.Iusersservice;
 using MedicalAppointment.Application.Service.appointments.Service;
 using MedicalAppointment.Application.Service.insurance.Service;
+using MedicalAppointment.Application.Service.system;
+using MedicalAppointment.Application.Service.system.Service;
 using MedicalAppointment.Application.Service.users.service;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +48,17 @@ builder.Services.AddScoped<INetworkTypeRepository, NetworkTypeRepository>();
 
 builder.Services.AddTransient<IInsuranceProvidersService, InsuranceProvidersService>();
 builder.Services.AddTransient<INetworkTypeService, NetworkTypeService>();
+
+builder.Services.AddTransient<INotificationsRepository, NotificationsRepository>();
+builder.Services.AddTransient<IRolesRepository, RolesRepository>();
+builder.Services.AddTransient<IStatusRepositoty, StatusRepositoty>();
+
+builder.Services.AddTransient<INotificationsService, NotificationsService>();
+builder.Services.AddTransient<IRolesService, RolesService>();
+builder.Services.AddTransient<IStatusService, StatusService>();
+
+
+
 
 
 

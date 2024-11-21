@@ -15,6 +15,8 @@ namespace MedicalAppoiments.Domain.Entities.system
 
         public bool IsActive { get; set; }
 
+        
+
 
     }
 }
