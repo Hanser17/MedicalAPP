@@ -21,7 +21,6 @@ namespace MedicalAppointment.Insurance.api.Controllers
 
 
 
-        // GET: api/<InsuranceProvidersController>
         [HttpGet("GetAllInsuranceProviders")]
         public async Task<IActionResult> Get()
         {
@@ -33,7 +32,7 @@ namespace MedicalAppointment.Insurance.api.Controllers
             return Ok(result.Data);
         }
 
-        // GET api/<InsuranceProvidersController>/5
+      
         [HttpGet("GetByInsuranceProviders")]
         public async Task<IActionResult> Get(int id)
         {
@@ -45,7 +44,7 @@ namespace MedicalAppointment.Insurance.api.Controllers
             return Ok(result.Data);
         }
 
-        // GET api/<InsuranceProvidersController>/5
+       
         [HttpGet("GeGetInsuranceProvidersByNetWorkt")]
         public async Task<IActionResult> GeGetInsuranceProvidersByNetWorkt(int id)
         {
@@ -56,7 +55,7 @@ namespace MedicalAppointment.Insurance.api.Controllers
             }
             return Ok(result.Data);
         }
-        // POST api/<InsuranceProvidersController>
+       
         [HttpPost("SaveInsuranceProviders")]
         public async Task<IActionResult> Save([FromBody] InsuranceProviders entity)
         {
@@ -77,7 +76,7 @@ namespace MedicalAppointment.Insurance.api.Controllers
             return Ok(result);
         }
 
-        // PUT api/<InsuranceProvidersController>/5
+        
         [HttpPut("UpdateInsuranceProviders")]
         public async Task<IActionResult> Put([FromBody] InsuranceProviders insuranceProviders)
         {
@@ -89,7 +88,7 @@ namespace MedicalAppointment.Insurance.api.Controllers
             return Ok(result);
         }
 
-        // DELETE api/<InsuranceProvidersController>/5
+       
         [HttpDelete("RemoveInsuranceProviders")]
         public async Task<IActionResult> Deleted([FromBody] InsuranceProviders insuranceProviders)
         {

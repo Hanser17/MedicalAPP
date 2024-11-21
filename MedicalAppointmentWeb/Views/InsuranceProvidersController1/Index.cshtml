@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MedicalAppoiments.Persistance.Models.insuranseModel.InsuranceProvidersModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InsuranceProviderID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsuranceProviderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsuranceProviderType)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.CoverageDetails)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.IsPreferred)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InsuranceProviderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InsuranceProviderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InsuranceProviderType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoverageDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPreferred)
+            </td>
+           
+            <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.InsuranceProviderID }) |
+                        @Html.ActionLink("Details", "Details", new {  id=item.InsuranceProviderID  }) |
+           
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

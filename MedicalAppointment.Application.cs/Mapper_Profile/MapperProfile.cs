@@ -2,10 +2,12 @@
 
 using AutoMapper;
 using MedicalAppoiments.Domain.Entities.appointments;
+using MedicalAppoiments.Domain.Entities.insurance;
 using MedicalAppoiments.Domain.Entities.users;
 using MedicalAppoiments.Persistance.Models.appointments;
 using MedicalAppoiments.Persistance.Models.appointmentsModel;
 using MedicalAppoiments.Persistance.Models.DoctorAvailivilityModel;
+using MedicalAppoiments.Persistance.Models.insuranseModel;
 using MedicalAppoiments.Persistance.Models.usersModel;
 
 namespace MedicalAppointment.Application.Mapper_Profile
@@ -47,6 +49,11 @@ namespace MedicalAppointment.Application.Mapper_Profile
             CreateMap <PatientSaveDTO, Patients>();
             #endregion
 
+            #region InsuranceProviders
+             CreateMap <InsuranceProvidersModel, InsuranceProvidersUpdateDTO > ();
+             CreateMap<InsuranceProvidersUpdateDTO, InsuranceProviders>();
+             CreateMap<InsuranceProvidersSaveDTO, InsuranceProviders>();
+            #endregion
         }
     }
 }

@@ -8,6 +8,9 @@ using MedicalAppoiments.Persistance.Models.insuranseModel;
 using MedicalAppoiments.Persistance.Repositories.usersRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.Metrics;
+using System.Net;
+using System.Reflection.Emit;
 
 
 namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
@@ -123,6 +126,12 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
                 operationResult.message = "MaxCoverageAmount del seguro debe ser mayor a 0 ";
                 return operationResult;
             }
+            if (await base.Exists(insinsuranceProvider => insinsuranceProvider.Name == entity.Name))
+            {
+                operationResult.success = false;
+                operationResult.message = "El nombre del seguro ya esta asignanado a otro seguro ";
+                return operationResult;
+            }
             try
             {
                 operationResult = await base.Save(entity);
@@ -230,7 +239,7 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
                 operationResult.message = "AcceptedRegions de seguro no puede ser mayor a 255 caracteres  ";
                 return operationResult;
             }
-            if (entity.MaxCoverageAmount.HasValue && entity.MaxCoverageAmount.Value > 0)
+            if (entity.MaxCoverageAmount.HasValue && entity.MaxCoverageAmount.Value < 0)
             {
                 operationResult.success = false;
                 operationResult.message = "MaxCoverageAmount del seguro debe ser mayor a 0 ";
@@ -245,12 +254,7 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
                     operationResult.message = "El seguro no existe";
                     return operationResult;
                 }
-                if (await base.Exists(insinsuranceProvider => insinsuranceProvider.Name == entity.Name))
-                {
-                    operationResult.success = false;
-                    operationResult.message = "El nombre del seguro ya esta asignanado a otro seguro ";
-                    return operationResult;
-                }
+               
 
                 insuranceProvidersoUpdate.Name = entity.Name;
                 insuranceProvidersoUpdate.ContactNumber = entity.ContactNumber;
@@ -321,21 +325,40 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
             OperationResult operationResult = new OperationResult();
 
             try
-             {
+            {
+                operationResult.Data = await (from i in _medicalAppointmentContext.InsuranceProviders
+                                              join n in _medicalAppointmentContext.NetworkType on i.NetworkTypeId equals n.NetworkTypeId
+                                              where i.IsActive
+                                              select new InsuranceProvidersModel
+                                              {
+                                                  InsuranceProviderName = i.Name,
+                                                  InsuranceProviderID = i.InsuranceProviderID,
+                                                  InsuranceProviderType = n.Name,
+                                                  CoverageDetails = i.CoverageDetails,
+                                                  ContactNumber = i.ContactNumber,
+                                                  IsPreferred = i.IsPreferred,
+                                                  
+                                              }).ToListAsync();
 
-                var insuranceProvider = await _medicalAppointmentContext.InsuranceProviders.ToListAsync();
-                operationResult.success = true;
-                operationResult.Data = insuranceProvider;
+                if (operationResult.Data.Count == 0)
+                {
+                    operationResult.success = false;
+                    operationResult.message = "No se encontró registro ";
+                    return operationResult;
+                }
+                else
+                {
+                    operationResult.success = true;
+                }
             }
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error opteniendo todos los Doctores";
+                operationResult.message = "Error opteniendo todos la Disponibilidad del doctor.";
                 _logger.LogError(operationResult.message, ex);
             }
 
             return operationResult;
-
         }
 
         public async override Task<OperationResult> GetEntityBy(int id)
@@ -351,21 +374,47 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
 
             try
             {
-                var insuranceProvider = await _medicalAppointmentContext.InsuranceProviders.FindAsync(id);
-                if (insuranceProvider == null)
+                operationResult.Data = await (from i in _medicalAppointmentContext.InsuranceProviders
+                                              join n in _medicalAppointmentContext.NetworkType on i.NetworkTypeId equals n.NetworkTypeId
+                                              where i.IsActive && i.InsuranceProviderID == id
+                                              select new InsuranceProvidersModel
+                                              {
+                                                  InsuranceProviderName = i.Name,
+                                                  InsuranceProviderID = i.InsuranceProviderID,
+                                                  InsuranceProviderType = n.Name,
+                                                  NetworkTypeId = n.NetworkTypeId,
+                                                  CoverageDetails = i.CoverageDetails,
+                                                  ContactNumber = i.ContactNumber,
+                                                  Email = i.Email,
+                                                  Website = i.Website,
+                                                  Address = i.Address,
+                                                  City = i.City,
+                                                  State = i.State,
+                                                  Country = i.Country,
+                                                  ZipCode = i.ZipCode,
+                                                  LogoUrl = i.LogoUrl,
+                                                  CustomerSupportContact = i.CustomerSupportContact,
+                                                  AcceptedRegions = i.AcceptedRegions,
+                                                  MaxCoverageAmount = i.MaxCoverageAmount,
+                                                  IsPreferred = i.IsPreferred,
+                                                  IsActive = i.IsActive
+                                              }).FirstOrDefaultAsync();
+
+                if (operationResult.Data == null)
                 {
                     operationResult.success = false;
-                    operationResult.message = "El insuranceProvider no existe.";
+                    operationResult.message = "No se encontró registro ";
                     return operationResult;
                 }
-
-                operationResult.success = true;
-                operationResult.Data = insuranceProvider;
+                else
+                {
+                    operationResult.success = true;
+                }
             }
             catch (Exception ex)
             {
                 operationResult.success = false;
-                operationResult.message = "Error al obtener el doctor.";
+                operationResult.message = "Error opteniendo todos la Disponibilidad del doctor.";
                 _logger.LogError(operationResult.message, ex);
             }
 
@@ -394,6 +443,17 @@ namespace MedicalAppoiments.Persistance.Repositories.insuranceRepository
                                                   InsuranceProviderID = i.InsuranceProviderID,
                                                   InsuranceProviderType = n.Name,
                                                   CoverageDetails = i.CoverageDetails,
+                                                  ContactNumber = i.ContactNumber,
+                                                  Email = i.Email,
+                                                  Website = i.Website,
+                                                  Address = i.Address,
+                                                  City = i.City,
+                                                  State = i.State,
+                                                  Country = i.Country,
+                                                  ZipCode = i.ZipCode,
+                                                  LogoUrl = i.LogoUrl,
+                                                  CustomerSupportContact = i.CustomerSupportContact,
+                                                  AcceptedRegions = i.AcceptedRegions,
                                                   MaxCoverageAmount = i.MaxCoverageAmount,
                                                   IsPreferred = i.IsPreferred,
                                                   IsActive = i.IsActive
