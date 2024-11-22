@@ -1,37 +1,32 @@
 ﻿using AutoMapper;
 using MedicalAppoiments.Domain.Entities.medical;
-using MedicalAppoiments.Domain.Entities.system;
-using MedicalAppoiments.Persistance.Models;
 using MedicalAppoiments.Persistance.Models.MedicalModel.Availability;
-using MedicalAppoiments.Persistance.Models.SystemModel.Roles;
 using MedicalAppointment.Application.Interfaces.ImedicalService;
-using MedicalAppointment.Application.Interfaces.IsystemService;
-using MedicalAppointment.Application.Service.system.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalAppointmentWeb.Controllers
 {
-    public class AvalabilityController1 : Controller
+    public class AvailabilityModesController1 : Controller
     {
         public readonly IAvailabilityModesService _availabilityModesService;
         public readonly IMapper _mapper;
 
 
-        public AvalabilityController1(IAvailabilityModesService availabilityModesService, IMapper mapper)
+        public AvailabilityModesController1(IAvailabilityModesService availabilityModesService, IMapper mapper)
         {
             _availabilityModesService = availabilityModesService;
             _mapper = mapper;
         }
 
 
-        public  async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var result = await _availabilityModesService.GetAllAvailabilityModesAsync();
             if (result.success)
             {
-                List<AvailabilityModelDTO> availabilityModelDTOs = (List<AvailabilityModelDTO>)result.Data;
-                return View(availabilityModelDTOs);
+                List<AvailabilityModes> AvailabilityModes = (List<AvailabilityModes>)result.Data;
+                return View(AvailabilityModes);
             }
 
             return View();
@@ -42,8 +37,8 @@ namespace MedicalAppointmentWeb.Controllers
             var result = await _availabilityModesService.GetByIDAvailabilityModesAsync(id);
             if (result.success)
             {
-                AvailabilityModelDTO availabilityModelDTO =(AvailabilityModelDTO)result.Data;
-                return View(availabilityModelDTO);
+                AvailabilityModes AvailabilityModes = (AvailabilityModes)result.Data;
+                return View(AvailabilityModes);
             }
             return View();
 
@@ -90,7 +85,7 @@ namespace MedicalAppointmentWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(AvailabilityUdapteDTO availabilityUdapteDTO )
+        public async Task<IActionResult> Edit(AvailabilityUdapteDTO availabilityUdapteDTO)
         {
             try
             {
@@ -114,6 +109,6 @@ namespace MedicalAppointmentWeb.Controllers
             }
         }
 
-   
+
     }
 }

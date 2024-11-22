@@ -8,7 +8,7 @@ namespace MedicalAppoiments.Persistance.Models.MedicalModel.Availability
 {
     public abstract class AvailabilityBaseDTO
     {
-        public int SAvailabilityModeID { get; set; }
+        public short SAvailabilityModeID { get; set; }
         public string? AvailabilityMode { get; set; }
 
         public bool IsActive { get; set; }

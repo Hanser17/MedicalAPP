@@ -29,8 +29,8 @@ namespace MedicalAppointmentWeb.Controllers
 
             if (result.success)
             {
-                List<NotificationModelDTO> notificationModelDTOs = (List<NotificationModelDTO>)result.Data;
-                return View(notificationModelDTOs);
+                List<Notifications> Notifications = (List<Notifications>)result.Data;
+                return View(Notifications);
             }
             return View();
         }
@@ -41,8 +41,8 @@ namespace MedicalAppointmentWeb.Controllers
             var result = await _notificationsService.GetNotificationByIdAsync(id);
             if (result.success)
             {
-                NotificationModelDTO notificationModelDTO = (NotificationModelDTO)result.Data;
-                return View(notificationModelDTO);
+                Notifications Notifications = (Notifications)result.Data;
+                return View(Notifications);
             }
             return View();
         }

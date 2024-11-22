@@ -10,7 +10,7 @@ namespace MedicalAppoiments.Domain.Entities.medical
     public class AvailabilityModes : BaseEntity
     {
         [Key]
-        public int SAvailabilityModeID { get; set; }
+        public short SAvailabilityModeID { get; set; }
         public string? AvailabilityMode { get; set; }
 
         public bool IsActive { get; set; }
