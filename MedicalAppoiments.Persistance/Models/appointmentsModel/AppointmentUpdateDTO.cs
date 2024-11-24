@@ -7,8 +7,18 @@ namespace MedicalAppoiments.Persistance.Models.appointments
     {
         public int AppointmentID { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
-
         public int StatusID { get; set; }
+
+
+        public string StatusName { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+
+        public string DoctorFirstName { get; set; }
+        public string DoctorLastName { get; set; }
+        public string PatientFirstName { get; set; }
+        public string PatientLastName { get; set; }
     }
 }

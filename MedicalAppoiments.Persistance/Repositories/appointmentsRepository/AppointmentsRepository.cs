@@ -65,21 +65,6 @@ namespace MedicalAppoiments.Persistance.Repositories.appointmentsRepository
                 return operationResult;
             }
 
-            if (entity.StatusID <= 0)
-            {
-                operationResult.success = false;
-                operationResult.message = "El ID del Status no puede ser nulo ni menor o igual a cero.";
-                return operationResult;
-            }
-            Status statusExist = await _medicalAppointmentContext.Status.FindAsync(entity.StatusID);
-            if (doctorsExist == null)
-            {
-                operationResult.success = false;
-                operationResult.message = "el estado no existe ";
-                return operationResult;
-            }
-
-
             if (await base.Exists(appointment => appointment.AppointmentID == entity.AppointmentID
                                                   && appointment.AppointmentDate == entity.AppointmentDate))
             {
