@@ -1,27 +1,23 @@
-﻿using AutoMapper;
-using MedicalAppoiments.Domain.Entities.appointments;
-using MedicalAppoiments.Domain.Entities.system;
+﻿using MedicalAppoiments.Domain.Entities.appointments;
+using MedicalAppoiments.Domain.Entities.medical;
 using MedicalAppoiments.Persistance.Models.appointments;
 using MedicalAppoiments.Persistance.Models.appointmentsModel;
-using MedicalAppointmentWeb.Models;
+using MedicalAppoiments.Persistance.Models.DoctorAvailivilityModel;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Net.Http.Json;
 
 namespace MedicalAppointmentWeb.Controllers
 {
-    public class AppointmentADMController1 : Controller
+    public class DoctorAvailibilityADMController1 : Controller
     {
-       
 
         public async Task<IActionResult> Index()
         {
             string url = "http://localhost:5273/api/";
 
-            List<AppointmentsModel> appointmentGetResultModel = new List<AppointmentsModel>();
+            List<DoctorAvailability> doctorAvailability = new List<DoctorAvailability>();
 
             try
             {
@@ -29,13 +25,22 @@ namespace MedicalAppointmentWeb.Controllers
                 {
                     client.BaseAddress = new Uri(url);
 
-                    var responseTask = await client.GetAsync("Appointments/GetAllAppointments");
+                    var responseTask = await client.GetAsync("DoctorAvailability/DoctorAvailability");
 
                     if (responseTask.IsSuccessStatusCode)
                     {
                         string response = await responseTask.Content.ReadAsStringAsync();
+                        try
+                        {
+                            doctorAvailability = JsonConvert.DeserializeObject<List<DoctorAvailability>>(response);
+                        }
+                        catch (JsonException ex)
+                        {
 
-                        appointmentGetResultModel = JsonConvert.DeserializeObject<List<AppointmentsModel>>(response);
+                            ViewBag.Message = "Error al procesar los datos: " + ex.Message;
+                        }
+
+                        
                     }
                     else
                     {
@@ -48,25 +53,21 @@ namespace MedicalAppointmentWeb.Controllers
 
                 ViewBag.Message = "Hubo un problema con la solicitud HTTP: " + ex.Message;
             }
-            catch (JsonException ex)
-            {
-
-                ViewBag.Message = "Error al procesar los datos: " + ex.Message;
-            }
+            
             catch (Exception ex)
             {
 
                 ViewBag.Message = "Ocurrió un error inesperado: " + ex.Message;
             }
 
-            return View(appointmentGetResultModel);
+            return View(doctorAvailability);
         }
 
         public async Task<IActionResult> Details(int id)
         {
             string url = "http://localhost:5273/api/";
 
-            AppointmentsModel appointmentsModel = new AppointmentsModel();
+            DoctorAvailability DoctorAvailability = new DoctorAvailability();
 
             try
             {
@@ -74,13 +75,13 @@ namespace MedicalAppointmentWeb.Controllers
                 {
                     client.BaseAddress = new Uri(url);
 
-                    var responseTask = await client.GetAsync($"Appointments/GetByAppointmentsID?id={id}");
+                    var responseTask = await client.GetAsync($"DoctorAvailability/GetByDoctorID?id={id}");
 
                     if (responseTask.IsSuccessStatusCode)
                     {
                         string response = await responseTask.Content.ReadAsStringAsync();
 
-                        appointmentsModel = JsonConvert.DeserializeObject<AppointmentsModel>(response);
+                        DoctorAvailability = JsonConvert.DeserializeObject<DoctorAvailability>(response);
                     }
                     else
                     {
@@ -104,10 +105,8 @@ namespace MedicalAppointmentWeb.Controllers
                 ViewBag.Message = "Ocurrió un error inesperado: " + ex.Message;
             }
 
-            return View(appointmentsModel);
+            return View(DoctorAvailability);
         }
-
-
 
         public ActionResult Create()
         {
@@ -117,7 +116,7 @@ namespace MedicalAppointmentWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AppointmentSaveDTO appointmentSaveDTO)
+        public async Task<IActionResult> Create(DoctorAvailibilitySaveDTO DoctorAvailibilitySaveDTO)
         {
             string url = "http://localhost:5273/api/";
 
@@ -126,9 +125,8 @@ namespace MedicalAppointmentWeb.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(url);
-                    appointmentSaveDTO.CreatedAt = DateTime.Now;
-                    appointmentSaveDTO.StatusID = 1;
-                    var responseTask = await client.PostAsJsonAsync<AppointmentSaveDTO>("Appointments/SaveAppointments", appointmentSaveDTO);
+                   
+                    var responseTask = await client.PostAsJsonAsync<DoctorAvailibilitySaveDTO>("DoctorAvailability/SaveDoctor", DoctorAvailibilitySaveDTO);
 
 
                     if (responseTask.IsSuccessStatusCode)
@@ -136,7 +134,7 @@ namespace MedicalAppointmentWeb.Controllers
 
                         string response = await responseTask.Content.ReadAsStringAsync();
 
-                        Appointments appointments = JsonConvert.DeserializeObject<Appointments>(response);
+                        DoctorAvailability DoctorAvailability = JsonConvert.DeserializeObject<DoctorAvailability>(response);
 
 
                     }
@@ -144,7 +142,7 @@ namespace MedicalAppointmentWeb.Controllers
                     {
 
                         ViewBag.Message = "Error al guardar la cita. Intenta de nuevo.";
-                        return View(appointmentSaveDTO);
+                        return View(DoctorAvailibilitySaveDTO);
                     }
                 }
 
@@ -167,15 +165,14 @@ namespace MedicalAppointmentWeb.Controllers
             }
 
 
-            return View(appointmentSaveDTO);
+            return View(DoctorAvailibilitySaveDTO);
         }
-
 
         public async Task<IActionResult> Edit(int id)
         {
             string url = "http://localhost:5273/api/";
 
-            AppointmentUpdateDTO appointmentUpdateDTO = new AppointmentUpdateDTO();
+            DoctorAvailibilityUpdateDTO DoctorAvailibilityUpdateDTO = new DoctorAvailibilityUpdateDTO();
 
             try
             {
@@ -183,13 +180,13 @@ namespace MedicalAppointmentWeb.Controllers
                 {
                     client.BaseAddress = new Uri(url);
 
-                    var responseTask = await client.GetAsync($"Appointments/GetByAppointmentsID?id={id}");
+                    var responseTask = await client.GetAsync($"DoctorAvailability/GetByDoctorID?id={id}");
 
                     if (responseTask.IsSuccessStatusCode)
                     {
                         string response = await responseTask.Content.ReadAsStringAsync();
-                        appointmentUpdateDTO.UpdatedAt = DateTime.Now;
-                        appointmentUpdateDTO = JsonConvert.DeserializeObject<AppointmentUpdateDTO>(response);
+                        
+                        DoctorAvailibilityUpdateDTO = JsonConvert.DeserializeObject<DoctorAvailibilityUpdateDTO>(response);
                     }
                     else
                     {
@@ -213,16 +210,16 @@ namespace MedicalAppointmentWeb.Controllers
                 ViewBag.Message = "Ocurrió un error inesperado: " + ex.Message;
             }
 
-            return View(appointmentUpdateDTO);
+            return View(DoctorAvailibilityUpdateDTO);
 
-        } 
+        }
 
 
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  async Task<IActionResult> Edit(AppointmentUpdateDTO appointmentUpdateDTO)
+        public async Task<IActionResult> Edit(DoctorAvailibilityUpdateDTO DoctorAvailibilityUpdateDTO)
         {
             string url = "http://localhost:5273/api/";
 
@@ -231,9 +228,9 @@ namespace MedicalAppointmentWeb.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(url);
-                    appointmentUpdateDTO.UpdatedAt = DateTime.Now;
                     
-                    var responseTask = await client.PutAsJsonAsync<AppointmentUpdateDTO>("Appointments/UpdateAppointments", appointmentUpdateDTO);
+
+                    var responseTask = await client.PutAsJsonAsync<DoctorAvailibilityUpdateDTO>("DoctorAvailability/UpdateDoctor", DoctorAvailibilityUpdateDTO);
 
 
                     if (responseTask.IsSuccessStatusCode)
@@ -241,7 +238,7 @@ namespace MedicalAppointmentWeb.Controllers
 
                         string response = await responseTask.Content.ReadAsStringAsync();
 
-                        Appointments appointments = JsonConvert.DeserializeObject<Appointments>(response);
+                        DoctorAvailability DoctorAvailability = JsonConvert.DeserializeObject<DoctorAvailability>(response);
 
 
                     }
@@ -249,7 +246,7 @@ namespace MedicalAppointmentWeb.Controllers
                     {
 
                         ViewBag.Message = "Error al guardar la cita. Intenta de nuevo.";
-                        return View(appointmentUpdateDTO);
+                        return View(DoctorAvailibilityUpdateDTO);
                     }
                 }
 
@@ -272,11 +269,8 @@ namespace MedicalAppointmentWeb.Controllers
             }
 
 
-            return View(appointmentUpdateDTO);
+            return View(DoctorAvailibilityUpdateDTO);
         }
-
-
-
 
     }
 }

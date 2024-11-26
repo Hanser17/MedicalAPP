@@ -7,6 +7,7 @@ namespace MedicalAppoiments.Domain.Entities.appointments
     public class DoctorAvailability
     {
         [Key]
+
         public int AvailabilityID { get; set; }
         public int DoctorID { get; set; }
         public DateOnly AvailableDate { get; set; }
